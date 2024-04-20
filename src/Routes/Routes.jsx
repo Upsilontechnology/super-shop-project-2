@@ -20,52 +20,47 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         children: [
-            {
-                path: "/",
-                element: <Home />
-            },
-            {
-              path: "/employeeHome",
-              element: <EmployeeHome />,
-            },
-            {
-              path: "/productList",
-              element: <ProductList />,
-            },
-            {
-              path: "/addProduct",
-              element: <AddProduct />,
-            },
-            {
-              path: "/sellList",
-              element: <ProductList />,
-            },
-            {
-              path: "/productNotification",
-              element: <ProductList />,
-            },
-            {
-              path: "/addCategory",
-              element: <ProductList />,
-            },
-
+          {
+            path: "/employeeHome",
+            element: <EmployeeHome />,
+          },
+          {
+            path: "/productList",
+            element: <ProductList />,
+          },
+          {
+            path: "/addProduct",
+            element: <AddProduct />,
+          },
+          {
+            path: "/sellList",
+            element: <ProductList />,
+          },
+          {
+            path: "/productNotification",
+            element: <ProductList />,
+          },
+          {
+            path: "/addCategory",
+            element: <ProductList />,
+          },
         ]
-    },
-    {
-        path: 'login',
-        element: <Login />
-    },
-    {
-        path: 'register',
-        element: <Registration />
-    },
-    {
-        path: 'loginSwitch',
-        element: <LoginSwitch />
-    }
-        ],
       },
     ],
+  },
+  {
+    path: 'login',
+    element: <Login />
+  },
+  {
+    path: 'register',
+    element: <Registration />
+  },
+  {
+    path: 'loginSwitch',
+    element: <LoginSwitch />
+  }
+],
 );
 
 export default router;
