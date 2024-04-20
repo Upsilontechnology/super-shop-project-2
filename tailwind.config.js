@@ -19,6 +19,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
 // Montserrat: "Montserrat", "sans-serif"

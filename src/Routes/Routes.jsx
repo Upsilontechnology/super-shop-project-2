@@ -9,6 +9,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/login/Login";
 import Registration from "../pages/registration/Registration";
 import LoginSwitch from "../pages/loginSwitch/LoginSwitch";
+import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
+import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,7 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home />
             },
+            // employee routes
             {
               path: "/employeeHome",
               element: <EmployeeHome />,
@@ -48,6 +51,15 @@ const router = createBrowserRouter([
               path: "/addCategory",
               element: <ProductList />,
             },
+            // admin routes
+            {
+                path: 'adminHome',
+                element: <AdminHome />
+            },
+            {
+                path: 'allEmployee',
+                element: <AllEmployee />
+            }
 
         ]
     },

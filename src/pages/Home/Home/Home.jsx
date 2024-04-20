@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EmployeeDashboard from "../../Dashboard-employee/employeeDashboard/EmployeeDashboard";
+import AdminDashboard from "../../Dashboard-admin/adminDashboard/AdminDashboard";
 
 const Home = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -11,7 +12,12 @@ const Home = () => {
   };
   return (
     <div>
-      <EmployeeDashboard
+      {/* <EmployeeDashboard
+        isSideMenuOpen={isSideMenuOpen}
+        toggleSideMenu={toggleSideMenu}
+        closeSideMenu={closeSideMenu}
+      /> */}
+      <AdminDashboard
         isSideMenuOpen={isSideMenuOpen}
         toggleSideMenu={toggleSideMenu}
         closeSideMenu={closeSideMenu}
