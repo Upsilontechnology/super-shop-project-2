@@ -11,6 +11,7 @@ import Registration from "../pages/registration/Registration";
 import LoginSwitch from "../pages/loginSwitch/LoginSwitch";
 import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
 import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
+import Category from "../pages/Dashboard-employee/category/Category";
 
 const router = createBrowserRouter([
   {
@@ -22,62 +23,64 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         children: [
-            {
-                path: "/",
-                element: <Home />
-            },
-            // employee routes
-            {
-              path: "/employeeHome",
-              element: <EmployeeHome />,
-            },
-            {
-              path: "/productList",
-              element: <ProductList />,
-            },
-            {
-              path: "/addProduct",
-              element: <AddProduct />,
-            },
-            {
-              path: "/sellList",
-              element: <ProductList />,
-            },
-            {
-              path: "/productNotification",
-              element: <ProductList />,
-            },
-            {
-              path: "/addCategory",
-              element: <ProductList />,
-            },
-            // admin routes
-            {
-                path: 'adminHome',
-                element: <AdminHome />
-            },
-            {
-                path: 'allEmployee',
-                element: <AllEmployee />
-            }
-
-        ]
-    },
-    {
-        path: 'login',
-        element: <Login />
-    },
-    {
-        path: 'register',
-        element: <Registration />
-    },
-    {
-        path: 'loginSwitch',
-        element: <LoginSwitch />
-    }
+          // {
+          //     path: "/",
+          //     element: <Home />
+          // },
+          // employee routes
+          {
+            path: "/employeeHome",
+            element: <EmployeeHome />,
+          },
+          {
+            path: "/category",
+            element: <Category />,
+          },
+          {
+            path: "/productList",
+            element: <ProductList />,
+          },
+          {
+            path: "/addProduct",
+            element: <AddProduct />,
+          },
+          {
+            path: "/sellList",
+            element: <ProductList />,
+          },
+          {
+            path: "/productNotification",
+            element: <ProductList />,
+          },
+          {
+            path: "/addCategory",
+            element: <ProductList />,
+          },
+          // admin routes
+          {
+            path: "adminHome",
+            element: <AdminHome />,
+          },
+          {
+            path: "allEmployee",
+            element: <AllEmployee />,
+          },
         ],
       },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Registration />,
+      },
+      {
+        path: "loginSwitch",
+        element: <LoginSwitch />,
+      },
     ],
-);
+  },
+]);
 
 export default router;
