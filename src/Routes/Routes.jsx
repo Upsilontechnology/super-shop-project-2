@@ -23,11 +23,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         children: [
-          // {
-          //     path: "/",
-          //     element: <Home />
-          // },
-          // employee routes
           {
             path: "/employeeHome",
             element: <EmployeeHome />,
@@ -66,21 +61,22 @@ const router = createBrowserRouter([
             element: <AllEmployee />,
           },
         ],
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Registration />,
-      },
-      {
-        path: "loginSwitch",
-        element: <LoginSwitch />,
-      },
+      }
     ],
   },
-]);
+  {
+    path: 'login',
+    element: <Login />
+  },
+  {
+    path: 'register',
+    element: <Registration />
+  },
+  {
+    path: 'loginSwitch',
+    element: <LoginSwitch />
+  }
+],
+);
 
 export default router;
