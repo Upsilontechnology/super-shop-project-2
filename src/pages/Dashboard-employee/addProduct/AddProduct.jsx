@@ -4,8 +4,19 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import useAuth from "../../../hooks/useAuth";
+import moment from "moment-timezone";
+import useUser from "../../../hooks/useUser";
 const AddProduct = () => {
+  const currentDate = moment();
   const axiosPublic = useAxiosPublic();
+  const userAuth = useAuth();
+  const [user] = useUser();
+
+  // console.log(user);
+
+  // console.log(userAuth.user.email);
+
   const {
     register,
     handleSubmit,
@@ -24,21 +35,22 @@ const AddProduct = () => {
     // sending image to the imageBB if provided
     const productDetails = {
       productName: data?.name,
-      productCode: data?.code,
-      unit: data?.price,
+      productCode: data?.productCode,
+      unit: data?.unit,
       quantity: data?.quantity,
       category: data?.category,
-      purchaseprice: data?.price,
-      sellprice: data?.price,
+      purchaseprice: data?.purchaseprice,
+      sellprice: data?.sellprice,
       supplierName: data?.name,
-      sellingDate: data?.date,
+      sellingDate: currentDate,
       status: "pending",
       email: user?.email,
-      branch: "none",
+      branch: user?.branch,
     };
+    // console.log(productDetails);
     // product added to the server
-    axiosPublic.post("/sellProduct", productDetails).then((res) => {
-      console.log(res);
+    axiosPublic.post("/products", productDetails).then((res) => {
+      // console.log(res);
       if (res.data.message === "success") {
         Swal.fire({
           position: "top-end",
@@ -79,12 +91,12 @@ const AddProduct = () => {
                   <span className="text-red-500">Product Name is required</span>
                 )}
               </div>
-              {/* Quantity */}
+              {/* product Code */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("quantity", { required: true })}
+                  {...register("productCode", { required: true })}
                   type="number"
-                  placeholder="Quantity"
+                  placeholder="Product Code"
                   className="input input-bordered w-full focus:outline-none bg-[#F0F2F5]"
                 />
                 {errors.quantity && (
@@ -93,28 +105,28 @@ const AddProduct = () => {
               </div>
             </div>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4 mb-2">
-              {/* price */}
+              {/* Unit */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("price", { required: true })}
+                  {...register("unit", { required: true })}
                   type="number"
-                  placeholder="Price"
+                  placeholder="Unit"
                   className="input input-bordered focus:outline-none w-full bg-[#F0F2F5]"
                 />
-                {errors.price && (
-                  <span className="text-red-500">Price is required</span>
+                {errors.unit && (
+                  <span className="text-red-500">Unit is required</span>
                 )}
               </div>
-              {/* Date */}
+              {/* Quantity */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("price", { required: true })}
+                  {...register("quantity", { required: true })}
                   type="number"
-                  placeholder="Price"
+                  placeholder="Quantity"
                   className="input input-bordered focus:outline-none w-full bg-[#F0F2F5]"
                 />
-                {errors.price && (
-                  <span className="text-red-500">Price is required</span>
+                {errors.quantity && (
+                  <span className="text-red-500">Quantity is required</span>
                 )}
               </div>
             </div>
@@ -125,53 +137,57 @@ const AddProduct = () => {
                   className="select select-bordered w-full focus:outline-none bg-[#F0F2F5]"
                   {...register("category", { required: true })}
                 >
-                  {categories?.map((category, index) => (
+                  {categories?.items?.map((category, index) => (
                     <option value={category?.category} key={category._id}>
                       {category?.category}
                     </option>
                   ))}
                 </select>
               </div>
-              {/* product Code */}
+              {/* Purchase Price */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("code", { required: true })}
+                  {...register("purchaseprice", { required: true })}
                   type="number"
-                  placeholder="Product Code"
+                  placeholder="Purchase Price"
                   className="input input-bordered focus:outline-none w-full bg-[#F0F2F5]"
                 />
-                {errors.code && (
-                  <span className="text-red-500">Product Code is required</span>
+                {errors.purchaseprice && (
+                  <span className="text-red-500">
+                    Purchase Price is required
+                  </span>
                 )}
               </div>
             </div>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4 mb-2">
-              {/* category */}
+              {/* Sell Price */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("price", { required: true })}
+                  {...register("sellprice", { required: true })}
                   type="number"
-                  placeholder="Price"
+                  placeholder="Sell Price"
                   className="input input-bordered focus:outline-none w-full bg-[#F0F2F5]"
                 />
-                {errors.price && (
+                {errors.sellprice && (
                   <span className="text-red-500">Price is required</span>
                 )}
               </div>
-              {/* product Code */}
+              {/* Supplier Name */}
               <div className="form-control w-full my-1">
                 <input
-                  {...register("code", { required: true })}
-                  type="number"
-                  placeholder="Product Code"
+                  {...register("supplierName", { required: true })}
+                  type="text"
+                  placeholder="Supplier Name"
                   className="input input-bordered focus:outline-none w-full bg-[#F0F2F5]"
                 />
                 {errors.code && (
-                  <span className="text-red-500">Product Code is required</span>
+                  <span className="text-red-500">
+                    Supplier Name is required
+                  </span>
                 )}
               </div>
             </div>
-            <button className="focus:outline-none focus:ring-2 w-full mt-5 focus:border-transparent bg-[#403030] hover:bg-[#221919] text-white font-semibold py-2.5 rounded-md">
+            <button className="focus:outline-none focus:ring-2 w-full mt-5 focus:border-transparent bg-mainBG hover:bg-blue-300 text-white font-semibold py-2.5 rounded-md">
               Add Product
             </button>
           </form>

@@ -3,8 +3,10 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
+import { updateProfile } from "firebase/auth";
 const Registration = () => {
-  // const { createUser, googleSignIn } = useAuth();
+  const { createUser, googleSignIn } = useAuth();
   const [error, setError] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const axiosPublic = useAxiosPublic();
@@ -16,7 +18,7 @@ const Registration = () => {
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    const image = form.image.value;
+    // const image = form.image.value;
 
     const userInfo = {
       name: name,
@@ -48,7 +50,7 @@ const Registration = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              navigate("/message");
+              // navigate("/message");
             }
           });
         })

@@ -1,6 +1,6 @@
 import axios from "axios";
-// import { signOut } from "firebase/auth";
-// import auth from "../../firebase.config";
+import { signOut } from "firebase/auth";
+import auth from "../firebase/firebase.config";
 
 const instance = axios.create({
   //   baseURL: "",

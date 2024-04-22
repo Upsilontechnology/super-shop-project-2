@@ -13,7 +13,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
         }}
         className={`flex items-center px-3 py-2 bg-slate-200 cursor-pointer rounded-md flexcode-banner-bg ${
           currentPage !== 0
-            ? "bg-stone-800 text-white"
+            ? "bg-[#757EC9] text-white"
             : "border-slate-500 btn-disabled"
         }`}
       >
@@ -27,7 +27,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => {
             key={num}
             className={`flex text-base items-center px-4 py-1 bg-slate-200 cursor-pointer rounded-md flexcode-banner-bg  ${
               num === currentPage
-                ? "bg-stone-800 text-white"
+                ? "bg-[#757EC9] text-white"
                 : "border-slate-500 "
             }`}
           >

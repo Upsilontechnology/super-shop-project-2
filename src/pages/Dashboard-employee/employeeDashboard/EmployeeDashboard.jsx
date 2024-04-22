@@ -17,7 +17,10 @@ import { MdDashboard, MdOutlineNotifications } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { GiBoxUnpacking } from "react-icons/gi";
+import useUser from "../../../hooks/useUser";
 const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
+  const [user] = useUser();
+  // console.log(user);
   const navlinks = (
     <>
       <li className="relative px-2 py-1">
@@ -129,7 +132,7 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
             <div>
               <p className="font-bold text-lg">Employee Dashboard</p>
               <div className="bg-mainBG text-white p-1 rounded-md w-1/2">
-                <h1>Branch Name</h1>
+                <h1>{user?.branch} Branch</h1>
               </div>
             </div>
             {/* items and routes */}
