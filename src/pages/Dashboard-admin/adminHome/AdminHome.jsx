@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
+
 import { IoBagOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
 import { FaSortAmountDown } from "react-icons/fa";
+import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
 
 const selectCategory = {
   category: {
@@ -24,7 +25,7 @@ const selectCategory = {
   },
 };
 
-const EmployeeHome = () => {
+const AdminHome = () => {
   const [filter, setFilter] = useState(null);
   const [selectedData, setSelectedData] = useState();
   const handleCategory = async (category, index) => {
@@ -38,7 +39,7 @@ const EmployeeHome = () => {
     //         setSelectedData(res.data);
     //     });
   };
-  // console.log(selectCategory);
+  console.log(selectCategory);
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
     // const res = await axiosPublic.get(
@@ -53,8 +54,8 @@ const EmployeeHome = () => {
     setOrderProducts(res.data);
   };
   return (
-    <div>
-      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh] bg-white mx-4 lg:mx-0 lg:ml-10 rounded-md">
+    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
+      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh]">
         <DashboardTitle
           title="Welcome to professional dashboard"
           descrition="Insights, management tools and ad creation - all in one place"
@@ -87,15 +88,15 @@ const EmployeeHome = () => {
           </div>
           <div>
             <div>
-              <div className="flex justify-center mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg">
-                {/* <div className="font-bold pb-3 flex flex-row  justify-between items-center">
+              <div className="flex flex-col mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg">
+                <div className="font-bold pb-3 flex   justify-between items-center">
                   <div>
                     <select
-                      className="bg-white px-4 py-2 rounded-md"
+                      className="bg-white px-4 py-2 rounded-md border-2"
                       onChange={(e) => handleCategory(e.target.value)}
                       value={filter}
                     >
-                      {selectCategory.category.options?.map(
+                      {selectCategory?.category?.options?.map(
                         (category, index) => (
                           <option value={category?.category} key={category._id}>
                             {category?.category}
@@ -111,7 +112,7 @@ const EmployeeHome = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28"
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 -ml-16"
                       >
                         <li>
                           <button
@@ -156,8 +157,8 @@ const EmployeeHome = () => {
                       </ul>
                     </div>
                   </div>
-                </div> */}
-                <div className="flex justify-center items-center  lg:w-4/6 w-5/6 4xl:my-10 3xl:my-5 md:my-0 my-5">
+                </div>
+                <div className="flex justify-center items-center lg:w-4/6 w-5/6 4xl:my-10 3xl:my-5 md:my-0 my-5 mx-auto border border-green-600">
                   <div className="grid grid-cols-1 md:grid-cols-2 px-1 md:px-0 gap-2 md:gap-5 w-full content-center">
                     <div className="w-full shadow-md rounded-md flex flex-col gap-2 md:px-4 md:py-5 px-4 py-5 bg-white">
                       <div className="rounded-lg flex items-center gap-1">
@@ -198,4 +199,4 @@ const EmployeeHome = () => {
   );
 };
 
-export default EmployeeHome;
+export default AdminHome;

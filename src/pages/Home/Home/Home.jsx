@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import EmployeeDashboard from "../../Dashboard-employee/employeeDashboard/EmployeeDashboard";
+import AdminDashboard from "../../Dashboard-admin/adminDashboard/AdminDashboard";
+import useAdmin from "../../../hooks/useAdmin";
+import useEmployee from "../../../hooks/useEmployee";
+import LoginSwitch from "../../loginSwitch/LoginSwitch";
 
 const Home = () => {
+  // const [isEmployee, isEmployeeLoading] = useEmployee();
+  // const [isAdmin, isAdminLoading] = useAdmin();
+  const isEmployee = true;
+  const isAdmin = false;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);
@@ -11,11 +19,21 @@ const Home = () => {
   };
   return (
     <div>
-      <EmployeeDashboard
-        isSideMenuOpen={isSideMenuOpen}
-        toggleSideMenu={toggleSideMenu}
-        closeSideMenu={closeSideMenu}
-      />
+      {isEmployee ? (
+        <EmployeeDashboard
+          isSideMenuOpen={isSideMenuOpen}
+          toggleSideMenu={toggleSideMenu}
+          closeSideMenu={closeSideMenu}
+        />
+      ) : isAdmin ? (
+        <AdminDashboard
+          isSideMenuOpen={isSideMenuOpen}
+          toggleSideMenu={toggleSideMenu}
+          closeSideMenu={closeSideMenu}
+        />
+      ) : (
+        <LoginSwitch />
+      )}
     </div>
   );
 };
