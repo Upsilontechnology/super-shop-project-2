@@ -11,6 +11,7 @@ import Registration from "../pages/registration/Registration";
 import LoginSwitch from "../pages/loginSwitch/LoginSwitch";
 import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
 import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
+import Category from "../pages/Dashboard-employee/category/Category";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         children: [
+<<<<<<< HEAD
             {
                 path: "/",
                 element: <Home />
@@ -63,6 +65,47 @@ const router = createBrowserRouter([
 
         ]
       },
+=======
+          {
+            path: "/employeeHome",
+            element: <EmployeeHome />,
+          },
+          {
+            path: "/category",
+            element: <Category />,
+          },
+          {
+            path: "/productList",
+            element: <ProductList />,
+          },
+          {
+            path: "/addProduct",
+            element: <AddProduct />,
+          },
+          {
+            path: "/sellList",
+            element: <ProductList />,
+          },
+          {
+            path: "/productNotification",
+            element: <ProductList />,
+          },
+          {
+            path: "/addCategory",
+            element: <ProductList />,
+          },
+          // admin routes
+          {
+            path: "adminHome",
+            element: <AdminHome />,
+          },
+          {
+            path: "allEmployee",
+            element: <AllEmployee />,
+          },
+        ],
+      }
+>>>>>>> 1dd9b399d34f45c78e783752a1577927df731bd7
     ],
   },
   {

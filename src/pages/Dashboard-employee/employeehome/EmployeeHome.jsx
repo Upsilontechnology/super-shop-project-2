@@ -38,7 +38,7 @@ const EmployeeHome = () => {
     //         setSelectedData(res.data);
     //     });
   };
-  console.log(selectCategory);
+  // console.log(selectCategory);
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
     // const res = await axiosPublic.get(
@@ -53,8 +53,8 @@ const EmployeeHome = () => {
     setOrderProducts(res.data);
   };
   return (
-    <>
-      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh]">
+    <div>
+      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh] bg-white mx-4 lg:mx-0 lg:ml-10 rounded-md">
         <DashboardTitle
           title="Welcome to professional dashboard"
           descrition="Insights, management tools and ad creation - all in one place"
@@ -194,7 +194,7 @@ const EmployeeHome = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
