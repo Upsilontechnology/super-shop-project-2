@@ -23,49 +23,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         children: [
-<<<<<<< HEAD
-            {
-                path: "/",
-                element: <Home />
-            },
-            // employee routes
-            {
-              path: "/employeeHome",
-              element: <EmployeeHome />,
-            },
-            {
-              path: "/productList",
-              element: <ProductList />,
-            },
-            {
-              path: "/addProduct",
-              element: <AddProduct />,
-            },
-            {
-              path: "/sellList",
-              element: <ProductList />,
-            },
-            {
-              path: "/productNotification",
-              element: <ProductList />,
-            },
-            {
-              path: "/addCategory",
-              element: <ProductList />,
-            },
-            // admin routes
-            {
-                path: 'adminHome',
-                element: <AdminHome />
-            },
-            {
-                path: 'allEmployee',
-                element: <AllEmployee />
-            }
-
-        ]
-      },
-=======
+          // employee route
           {
             path: "/employeeHome",
             element: <EmployeeHome />,
@@ -105,7 +63,6 @@ const router = createBrowserRouter([
           },
         ],
       }
->>>>>>> 1dd9b399d34f45c78e783752a1577927df731bd7
     ],
   },
   {
