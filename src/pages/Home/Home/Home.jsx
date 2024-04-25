@@ -6,10 +6,12 @@ import useEmployee from "../../../hooks/useEmployee";
 import LoginSwitch from "../../loginSwitch/LoginSwitch";
 
 const Home = () => {
-  // const [isEmployee, isEmployeeLoading] = useEmployee();
-  // const [isAdmin, isAdminLoading] = useAdmin();
-  const isEmployee = true;
-  const isAdmin = false;
+  const [isEmployee, isEmployeeLoading] = useEmployee();
+  const [isAdmin, isAdminLoading] = useAdmin();
+  console.log(isAdmin);
+  console.log(isEmployee);
+  // const isEmployee = true;
+  // const isAdmin = false;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);

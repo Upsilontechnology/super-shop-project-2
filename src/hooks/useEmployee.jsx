@@ -1,21 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "./useAxiosPrivate";
 import useAuth from "./useAuth";
-import useAxiosPublic from "./useAxiosPublic";
 
 const useEmployee = () => {
-  // const axios = useAxiosPrivate();
-  const axios = useAxiosPublic();
-  // const user = useAuth();
-  // const { data: isEmployee, isPending: isEmployeeLoading } = useQuery({
-  //   queryKey: [user?.email, "isEmployee"],
-  //   enabled: !isLoading,
-  //   queryFn: async () => {
-  //     const res = await axios.get(`/users/${user?.email}`);
-  //     return res?.data?.isEmployee;
-  //   },
-  // });
-  return [isEmployee, isEmployeeLoading];
+  const axios = useAxiosPrivate();
+  const { user, loading } = useAuth();
+  const {
+    data: isEmployee,
+    isPending: isEmployeeLoading,
+    error: isEmployeeError,
+  } = useQuery({
+    queryKey: [user?.email, "isEmployee"],
+    enabled: !loading,
+    queryFn: async () => {
+      if (!user?.email) return;
+
+      try {
+        const res = await axios.get(`/users/employee/${user?.email}`);
+        return res?.data?.isEmployee;
+      } catch (error) {
+        if (error.isAxiosError) {
+          console.error("Network error:", error);
+        } else {
+          console.error("Unexpected error:", error);
+        }
+        throw error;
+      }
+    },
+  });
+
+  return [isEmployee, isEmployeeLoading, isEmployeeError];
 };
 
 export default useEmployee;

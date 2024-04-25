@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { getToken } from "../../components/AuthProvider/AuthApi";
 
 const Login = () => {
   const { signInUser, googleSignIn } = useAuth();
@@ -13,15 +14,16 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const email = form.email.value;
+    const email = form.email.value.toLowerCase();
     const password = form.password.value;
 
     setError("");
-
+    // console.log(email);
     try {
       const user1 = await signInUser(email, password);
       console.log(user1.user.email);
-
+      await getToken(user1?.user?.email);
+      navigate("/employeeHome");
       //   const loggedUser = await useUserRoll(user1.user.email);
       //   console.log(loggedUser);
 
