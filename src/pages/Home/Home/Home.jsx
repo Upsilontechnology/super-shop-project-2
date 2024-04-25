@@ -10,8 +10,7 @@ const Home = () => {
   const [isAdmin, isAdminLoading] = useAdmin();
   console.log(isAdmin);
   console.log(isEmployee);
-  // const isEmployee = true;
-  // const isAdmin = false;
+
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);

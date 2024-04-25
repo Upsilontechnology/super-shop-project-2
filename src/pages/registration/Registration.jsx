@@ -26,6 +26,7 @@ const Registration = () => {
       email: email,
       role: "user",
       branch: "none",
+      status: 'pending'
     };
     console.log(userInfo);
 
