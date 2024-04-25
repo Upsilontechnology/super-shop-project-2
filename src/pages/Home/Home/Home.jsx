@@ -8,8 +8,8 @@ import LoginSwitch from "../../loginSwitch/LoginSwitch";
 const Home = () => {
   // const [isEmployee, isEmployeeLoading] = useEmployee();
   // const [isAdmin, isAdminLoading] = useAdmin();
-  const isEmployee = true;
-  const isAdmin = false;
+  const isEmployee = false;
+  const isAdmin = true;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);

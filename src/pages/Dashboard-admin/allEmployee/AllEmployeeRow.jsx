@@ -4,9 +4,11 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { CiCirclePlus } from "react-icons/ci";
-const AllEmployeeRow = ({ users, index, onEdit, onDelete, refetch }) => {
+
+const AllEmployeeRow = ({ users, index, onEdit, refetchByAllEmployee }) => {
   const axiosPublic = useAxiosPublic();
-  console.log(users);
+  // console.log(users);
+
   const handleDeleteUser = (userId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -18,20 +20,21 @@ const AllEmployeeRow = ({ users, index, onEdit, onDelete, refetch }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPublic.delete(`/users/${userId}`).then((res) => {
-          if (res.data.message === "success") {
-            onDelete(userId);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Category has been deleted.",
-              icon: "success",
-            });
-            refetch();
-          }
-        });
+        axiosPublic.delete(`/users/${userId}`)
+          .then((res) => {
+            if (res.data.deletedCount === 1) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "User has been deleted.",
+                icon: "success",
+              });
+              refetchByAllEmployee();
+            }
+          });
       }
     });
   };
+
   return (
     <tr className=" border-b-[1.2px] border-black text-center ">
       <th>{index + 1}</th>
@@ -44,13 +47,15 @@ const AllEmployeeRow = ({ users, index, onEdit, onDelete, refetch }) => {
           <FiEdit />
         </button> */}
         <button
+          onClick={() => onEdit(users)}
+          className="btn btn-ghost btn-xs">
+          <CiCirclePlus className="text-xl" />
+        </button>
+        <button
           onClick={() => handleDeleteUser(users?._id)}
           className="btn btn-ghost btn-xs"
         >
-          <RiDeleteBin6Line />
-        </button>
-        <button className="btn btn-ghost btn-xs">
-          <CiCirclePlus />
+          <RiDeleteBin6Line className="text-xl" />
         </button>
       </th>
     </tr>
