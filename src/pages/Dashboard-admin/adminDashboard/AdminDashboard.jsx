@@ -1,26 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import {
-  AiFillFacebook,
-  AiFillInstagram,
-  AiOutlineHome,
-  AiOutlineSchedule,
-  AiOutlineTwitter,
-  AiOutlineWhatsApp,
-} from "react-icons/ai";
-import { BiBarChart } from "react-icons/bi";
-import { RiFileList3Line } from "react-icons/ri";
+
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
-import { IoBagAddOutline, IoPersonOutline } from "react-icons/io5";
 import Header from "../../../components/shared/header/Header";
-import { MdDashboard, MdOutlineNotifications } from "react-icons/md";
-import { CiViewList } from "react-icons/ci";
+import { MdDashboard } from "react-icons/md";
+
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { GiBoxUnpacking } from "react-icons/gi";
 import useUser from "../../../hooks/useUser";
-
+import branchesData from "../../../../public/branches.json";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
 const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
-  const [user] = useUser();
+  const { user: activeUser, loading } = useAuth();
+  const [user, refetch] = useUser();
+  const axios = useAxiosPrivate();
+
+  const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
+  const updateBranch = async () => {
+    try {
+      const res = await axios.patch(`/users/changebranch/${user._id}`, {
+        branch: selectedBranch,
+      });
+      if (res.data.modifiedCount === 1) {
+        refetch();
+        Swal.fire("Success!", "Branch updated successfully.", "success");
+      } else {
+        console.error("Error updating branch:", res.data);
+        Swal.fire("Error", "Failed to update branch.", "error");
+      }
+    } catch (error) {
+      console.error("Error updating branch:", error);
+      Swal.fire("Error", "Network error or unexpected issue.", "error");
+    }
+  };
+
+  const handleChangeBranch = async (e) => {
+    e.preventDefault();
+    setSelectedBranch(e.target.value);
+
+    if (!selectedBranch) {
+      Swal.fire(
+        "Please Select",
+        "You must select a branch to update.",
+        "warning"
+      );
+      return;
+    }
+
+    updateBranch();
+  };
   const navlinks = (
     <>
       <li className="relative px-2 py-1">
@@ -77,8 +107,20 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           {/* logo */}
           <div>
             <p className="font-bold text-lg">Admin Dashboard</p>
-            <div className="bg-mainBG text-white p-1 rounded-md w-1/2">
-              <h1>{user?.branch} Branch</h1>
+            <div className=" p-1 rounded-md">
+              {/* <h1>{user?.branch} Branch</h1> */}
+              <select
+                onChange={handleChangeBranch}
+                className="p-1 border-2 rounded-md bg-mainBG text-white"
+                value={selectedBranch}
+              >
+                <option value={""}>{user?.branch} Branch</option>
+                {branchesData.map((branch) => (
+                  <option key={branch.id} value={branch.name}>
+                    {branch.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           {/* items and routes */}

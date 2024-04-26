@@ -18,6 +18,23 @@ const Home = () => {
   const closeSideMenu = () => {
     setIsSideMenuOpen(false);
   };
+
+  if (isAdminLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg "></span>
+      </div>
+    );
+  }
+
+  if (isEmployeeLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg "></span>
+      </div>
+    );
+  }
+
   return (
     <div>
       {isEmployee ? (

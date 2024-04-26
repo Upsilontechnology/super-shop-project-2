@@ -40,7 +40,7 @@ const AllEmployee = () => {
     },
   });
 
-  console.log(users)
+  console.log(users);
 
   // const handleDelete = async (userId) => {
   //   try {
