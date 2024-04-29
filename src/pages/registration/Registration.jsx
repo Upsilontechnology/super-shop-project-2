@@ -5,6 +5,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import { updateProfile } from "firebase/auth";
+import { getToken } from "../../components/AuthProvider/AuthApi";
 const Registration = () => {
   const { createUser, googleSignIn } = useAuth();
   const [error, setError] = useState();
@@ -12,11 +13,11 @@ const Registration = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
-  const hanldeRegister = (e) => {
+  const hanldeRegister = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const email = form.email.value;
+    const email = form.email.value.toLowerCase();
     const password = form.password.value;
     // const image = form.image.value;
 
@@ -25,38 +26,30 @@ const Registration = () => {
       email: email,
       role: "user",
       branch: "none",
+      status: 'pending'
     };
     console.log(userInfo);
 
     setError("");
     try {
-      createUser(email, password)
-        .then((result) => {
-          console.log(result.user);
-
-          // updated user profile
-          updateProfile(result?.user, {
-            displayName: form.name.value,
-            photoURL: "https://i.ibb.co/wzY7xRG/bronze.png",
+      const result = await createUser(email, password);
+      await updateProfile(result?.user, {
+        displayName: form.name.value,
+        photoURL: "https://i.ibb.co/wzY7xRG/bronze.png",
+      });
+      await axiosPublic.post("/users", userInfo).then((res) => {
+        if (res.data.success === true) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successfully registered",
+            showConfirmButton: false,
+            timer: 1500,
           });
-
-          // insert user data to the database
-          axiosPublic.post("/users", userInfo).then((res) => {
-            if (res.data.success === true) {
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Successfully registered",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              // navigate("/message");
-            }
-          });
-        })
-        .catch((error) => {
-          setError(error.message);
-        });
+          // navigate("/message");
+        }
+      });
+      await getToken(result?.user?.email);
     } catch (error) {
       console.log(error);
     }

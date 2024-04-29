@@ -6,10 +6,11 @@ import useEmployee from "../../../hooks/useEmployee";
 import LoginSwitch from "../../loginSwitch/LoginSwitch";
 
 const Home = () => {
-  // const [isEmployee, isEmployeeLoading] = useEmployee();
-  // const [isAdmin, isAdminLoading] = useAdmin();
-  const isEmployee = true;
-  const isAdmin = false;
+  const [isEmployee, isEmployeeLoading] = useEmployee();
+  const [isAdmin, isAdminLoading] = useAdmin();
+  console.log(isAdmin);
+  console.log(isEmployee);
+
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);
@@ -17,6 +18,23 @@ const Home = () => {
   const closeSideMenu = () => {
     setIsSideMenuOpen(false);
   };
+
+  if (isAdminLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg "></span>
+      </div>
+    );
+  }
+
+  if (isEmployeeLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg "></span>
+      </div>
+    );
+  }
+
   return (
     <div>
       {isEmployee ? (
