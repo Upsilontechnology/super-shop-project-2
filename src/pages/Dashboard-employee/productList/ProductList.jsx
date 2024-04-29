@@ -3,12 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import Pagination from "../../../components/pagination/Pagination";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import Product from "./Product/Product";
+import ProductEditModal from "./ProductEditModal";
+import ProductSellModal from "./ProductSellModal";
 
 const ProductList = () => {
-
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
   const axiosPublic = useAxiosPublic();
+  const [openModal, setOpenModal] = useState(false);
+  const [openSellModal, setOpenSellModal] = useState(false);
+  const [sell, setSell] = useState("");
 
   const { data: products = [], refetch } = useQuery({
     queryKey: ["productData", itemsPerPage, currentPage],
@@ -24,6 +28,33 @@ const ProductList = () => {
       }
     },
   });
+
+  const handleEditModal = async (product) => {
+    try {
+      const response = await axiosPublic.get(`/products/${product?._id}`);
+      setSell(response?.data);
+      // setOpenModal(true);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+    setOpenModal(true);
+  };
+
+  const handleSellModal = async (product) => {
+    try {
+      const response = await axiosPublic.get(`/products/${product?._id}`);
+      setSell(response?.data);
+      // setOpenModal(true);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+    setOpenSellModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setOpenSellModal(false)
+  };
 
 
   return (
@@ -67,9 +98,12 @@ const ProductList = () => {
             <tbody className="">
               {products?.map((product, index) => (
                 <Product
-                key={product._id}
-                product={product}
-                index={index}
+                  key={product._id}
+                  product={product}
+                  onEdit={handleEditModal}
+                  onSell={handleSellModal}
+                  refetchProducts={refetch}
+                  index={index}
                 />
               ))}
             </tbody>
@@ -81,6 +115,20 @@ const ProductList = () => {
         totalPages={Math.ceil(length / itemsPerPage)}
         setCurrentPage={setCurrentPage}
       />
+      {openModal && (
+        <ProductEditModal
+          onClose={handleCloseModal}
+          refetchProducts={refetch}
+          products={sell}
+        />
+      )}
+      {openSellModal && (
+        <ProductSellModal
+          onClose={handleCloseModal}
+          refetchProducts={refetch}
+          products={sell}
+        />
+      )}
     </div >
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
@@ -12,17 +12,9 @@ const AddProduct = () => {
   const axiosPublic = useAxiosPublic();
   const userAuth = useAuth();
   const [user] = useUser();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  // console.log(user);
 
-  // console.log(userAuth.user.email);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  // const { user } = useAuth();
   const { data: categories = [], refetch } = useQuery({
     queryKey: ["categoryData"],
     queryFn: async () => {
@@ -32,7 +24,6 @@ const AddProduct = () => {
   });
 
   const onSubmit = (data) => {
-    // sending image to the imageBB if provided
     const productDetails = {
       productName: data?.name,
       productCode: data?.productCode,
@@ -41,7 +32,7 @@ const AddProduct = () => {
       category: data?.category,
       purchaseprice: data?.purchaseprice,
       sellprice: data?.sellprice,
-      supplierName: data?.name,
+      supplierName: data?.supplierName,
       sellingDate: currentDate,
       status: "pending",
       email: user?.email,
@@ -70,6 +61,7 @@ const AddProduct = () => {
       }
     });
   };
+
   return (
     <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
       <div className="mt-2 p-2  rounded-md 2xl:h-[66vh] h-screen flex items-center justify-center">

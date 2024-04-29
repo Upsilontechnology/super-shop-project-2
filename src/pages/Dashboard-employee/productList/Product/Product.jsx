@@ -3,23 +3,37 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
 
-const Product = ({ product, index }) => {
-
-    // const [openModal, setOpenModal] = useState(false);
+const Product = ({ product, index, onEdit, onSell, refetchProducts }) => {
     const axiosPublic = useAxiosPublic();
-    const [sell, setSell] = useState("");
-    console.log(sell);
 
-    const handleEdit = async (id) => {
-        try {
-            const response = await axiosPublic.get(`/products/${id}`);
-            setSell(response?.data);
-            // setOpenModal(true);
-        } catch (error) {
-            console.error("Error fetching product details:", error);
-        }
-    };
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosPublic.delete(`/products/${id}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        if (res.data.deletedCount === 1) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Product deleted successfully",
+                                icon: "success",
+                            });
+                            refetchProducts();
+                        }
+                    });
+            }
+        });
+    }
 
 
     return (
@@ -36,13 +50,16 @@ const Product = ({ product, index }) => {
             <td>{product?.sellprice}</td>
             <td>{product?.purchaseprice}</td>
             <th className='flex justify-between gap-4'>
-                <button onClick={() => handleEdit(product?._id)}>
+                {/* <button onClick={() => handleEdit(product?._id)}>
+                    <FiEdit className="text-lg" />
+                </button> */}
+                <button onClick={() => onEdit(product)}>
                     <FiEdit className="text-lg" />
                 </button>
-                <button>
+                <button onClick={() => handleDelete(product?._id)}>
                     <RiDeleteBin6Line className="text-lg" />
                 </button>
-                <button>
+                <button onClick={() => onSell(product)}>
                     <CiCirclePlus className="text-lg" />
                 </button>
             </th>
