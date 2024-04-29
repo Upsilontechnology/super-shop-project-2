@@ -97,7 +97,6 @@ const AllEmployeeModal = ({ user, onClose, refetchUsers }) => {
           </button>
           <form
             className="flex flex-col gap-2 rounded-lg space-y-3 px-14 py-24 "
-          // onSubmit={handleUpdateCategory}
           >
             <div className="flex gap-6">
               <div className="form-control w-full my-1">
