@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
 import { IoBagOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
 import { FaSortAmountDown } from "react-icons/fa";
+import useRoleAndBranch from "../../../hooks/useRoleAndBranch";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import { useBranch } from "../../../components/BranchContext/BranchContext";
 
 const selectCategory = {
   category: {
@@ -26,7 +31,46 @@ const selectCategory = {
 
 const EmployeeHome = () => {
   const [filter, setFilter] = useState(null);
+  const { selectedBranch, updateBranch } = useBranch();
+  const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
   const [selectedData, setSelectedData] = useState();
+  const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
+  const [addBranch, setAddBranch] = useState(branch);
+  const {
+    data: productState = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["productState", role, branch],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get(
+          `/products/1/state?role=${role}&branch=${addBranch}&email=${user?.email}`
+        );
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching Product Statistics:", error);
+        throw error;
+      }
+    },
+  });
+  const { data: categories = [], refetch: refetchCategory } = useQuery({
+    queryKey: ["categoryData"],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get("/category");
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        throw error;
+      }
+    },
+  });
+  useEffect(() => {
+    setAddBranch(selectedBranch);
+    refetch();
+  }, [selectedBranch, refetch]);
   const handleCategory = async (category, index) => {
     // setDefaultTab(index);
     setFilter(category);
@@ -64,23 +108,31 @@ const EmployeeHome = () => {
             <h1 className="font-bold py-3 text-lg">Total Summary</h1>
           </div>
           <div>
-            <div className="grid grid-cols-3 gap-2 text-white">
+            <div className="grid grid-cols-4 gap-2 text-white">
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Product</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1 className="text-3xl">{productState?.totalProducts}</h1>
                 </div>
               </div>
               <div className="rounded-md bg-[#4A518E]">
                 <div className="p-5">
-                  <h1>Total Amount (BDT)</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1>Total Sell (BDT)</h1>
+                  <h1 className="text-3xl">{productState?.totalSellAmount}</h1>
+                </div>
+              </div>
+              <div className="rounded-md bg-[#4A518E]">
+                <div className="p-5">
+                  <h1>Total Purchase (BDT)</h1>
+                  <h1 className="text-3xl">
+                    {productState?.totalPurchaseAmount}
+                  </h1>
                 </div>
               </div>
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1 className="text-3xl">{productState?.allCategories}</h1>
                 </div>
               </div>
             </div>

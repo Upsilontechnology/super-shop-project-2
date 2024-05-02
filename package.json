@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.29.2",
     "axios": "^1.6.8",
+    "deep-equal": "^2.2.3",
     "firebase": "^10.11.0",
     "gsap": "^3.12.5",
     "localforage": "^1.10.0",

@@ -52,7 +52,7 @@ const CategoryModal = ({ category, onClose, refetchCategories }) => {
                   value={editedCategory}
                   onChange={(e) => setEditedCategory(e.target.value)}
                   type="text"
-                  placeholder="Category Name"
+                  // placeholder="Category Name"
                   className="input input-bordered w-full focus:outline-none"
                 />
               </div>
