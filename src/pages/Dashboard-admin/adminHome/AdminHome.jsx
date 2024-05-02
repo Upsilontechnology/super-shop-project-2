@@ -62,7 +62,7 @@ const AdminHome = () => {
       }
     },
   });
-  // console.log(selectedBranch);
+  console.log(categories);
   const {
     data: productState = [],
     refetch,
@@ -150,15 +150,15 @@ const AdminHome = () => {
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">{productState?.allCategories}</h1>
+                  <h1 className="text-3xl">{categories?.items?.length}</h1>
                 </div>
               </div>
             </div>
           </div>
           <div>
             <div>
-              <div className="flex flex-col mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg">
-                <div className="font-bold pb-3 flex   justify-between items-center">
+              <div className="flex flex-col mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
+                <div className="font-bold flex mx-7 py-4  justify-between items-center">
                   <div>
                     <select
                       className="bg-white px-4 py-2 rounded-md border-2"

@@ -28,8 +28,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           defaultChecked
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="employeeHome"
         >
@@ -41,8 +41,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="category"
         >
@@ -54,8 +54,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="addProduct"
         >
@@ -67,8 +67,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="productList"
         >
@@ -80,8 +80,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="sellList"
         >
@@ -90,12 +90,12 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         </NavLink>
       </li>
 
-      <li className="relative px-2 py-1 ">
+      <li className="relative px-2 py-1">
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 w-56 rounded hover:bg-[#757ec9] text-base"
           }
           to="productNotification"
         >
@@ -107,8 +107,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+              ? "inline-flex items-center bg-[#757ec9] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py- rounded1 hover:bg-[#757ec9] w-56 text-base"
           }
           to="orderedList"
         >

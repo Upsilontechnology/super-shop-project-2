@@ -39,11 +39,13 @@ const Home = () => {
   return (
     <div>
       {isEmployee ? (
-        <EmployeeDashboard
-          isSideMenuOpen={isSideMenuOpen}
-          toggleSideMenu={toggleSideMenu}
-          closeSideMenu={closeSideMenu}
-        />
+        <BranchProvider>
+          <EmployeeDashboard
+            isSideMenuOpen={isSideMenuOpen}
+            toggleSideMenu={toggleSideMenu}
+            closeSideMenu={closeSideMenu}
+          />
+        </BranchProvider>
       ) : isAdmin ? (
         <BranchProvider>
           <AdminDashboard
