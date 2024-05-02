@@ -9,25 +9,25 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
 
-const selectCategory = {
-  category: {
-    name: "Select Category",
-    options: [
-      {
-        id: 1,
-        label: "Option 1",
-      },
-      {
-        id: 2,
-        label: "Option 2",
-      },
-      {
-        id: 3,
-        label: "Option 3",
-      },
-    ],
-  },
-};
+// const selectCategory = {
+//   category: {
+//     name: "Select Category",
+//     options: [
+//       {
+//         id: 1,
+//         label: "Option 1",
+//       },
+//       {
+//         id: 2,
+//         label: "Option 2",
+//       },
+//       {
+//         id: 3,
+//         label: "Option 3",
+//       },
+//     ],
+//   },
+// };
 
 const EmployeeHome = () => {
   const [filter, setFilter] = useState(null);
@@ -37,9 +37,13 @@ const EmployeeHome = () => {
   const [selectedData, setSelectedData] = useState();
   const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
   const [addBranch, setAddBranch] = useState(branch);
-  const status = 'approved'
+  const status = "approved";
 
-  const { data: productState = [], refetch, isLoading } = useQuery({
+  const {
+    data: productState = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["productState", role, branch],
     queryFn: async () => {
       try {
@@ -54,21 +58,23 @@ const EmployeeHome = () => {
     },
   });
 
-  const { data: soldProductState = [], refetch: soldProductRefetch } = useQuery({
-    queryKey: ["soldProductState", role, branch],
-    queryFn: async () => {
-      try {
-        const res = await axiosPublic.get(
-          `/sellProducts?role=${role}&branch=${addBranch}&email=${user?.email}&status=${status}`
-        );
-        setSelectedData(res.data?.items);
-        return res.data;
-      } catch (error) {
-        console.error("Error fetching Product Statistics:", error);
-        throw error;
-      }
-    },
-  });
+  const { data: soldProductState = [], refetch: soldProductRefetch } = useQuery(
+    {
+      queryKey: ["soldProductState", role, branch],
+      queryFn: async () => {
+        try {
+          const res = await axiosPublic.get(
+            `/sellProducts?role=${role}&branch=${branch}&email=${user?.email}&status=${status}`
+          );
+          setSelectedData(res.data?.items);
+          return res.data;
+        } catch (error) {
+          console.error("Error fetching Product Statistics:", error);
+          throw error;
+        }
+      },
+    }
+  );
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -82,44 +88,54 @@ const EmployeeHome = () => {
       }
     },
   });
-  useEffect(() => {
-    setAddBranch(selectedBranch);
-    refetch();
-  }, [selectedBranch, refetch]);
+  // useEffect(() => {
+  //   setAddBranch(selectedBranch);
+  //   refetch();
+  // }, [selectedBranch, refetch]);
 
-  const handleCategory = async (category, index) => {
+  const handleCategory = async (categoryName, index) => {
     // setDefaultTab(index);
-    setFilter(category);
-    const categoryName = category.toLowerCase();
-    console.log(categoryName);
+    // setFilter(category);
+    const category = categoryName.toLowerCase();
+    // console.log(category);
 
-    // await axiosPublic.get(`/soldItems/${categoryName}`)
-    //     .then((res) => {
-    //         setSelectedData(res.data);
-    //     });
+    const res = await axiosPublic.get(
+      `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email}&category=${category}&status=${status}`
+    );
+    setSelectedData(res.data);
   };
 
   const handleFilter = async (category, filterName) => {
     // const categoryName = category.toLowerCase();
-    console.log(filterName)
+    // console.log(filterName);
     const res = await axiosPublic.get(
       `/sellProducts/filter?role=${role}&branch=${branch}&email=${user?.email}&filterName=${filterName}&status=${status}`
     );
     setSelectedData(res.data);
   };
 
-  const handleOrderFilter = async (filterName) => {
-    // const res = await axiosPublic.get(
-    //   `/orderProduct/1/filter?filterName=${filterName}`
-    // );
-    setOrderProducts(res.data);
-  };
+  // const handleOrderFilter = async (filterName) => {
+  //   const res = await axiosPublic.get(
+  //     `/orderProduct/1/filter?filterName=${filterName}`
+  //   );
+  //   setOrderProducts(res.data);
+  // };
 
   // all reduced function
-  const totalSoldProductAmount = soldProductState?.items?.reduce(((total, product) => product?.price + total), 0);
-  const totalSellByCategory = selectedData?.reduce(((total, product) => product?.price + total), 0);
+  const totalSoldProductAmount = soldProductState?.items?.reduce(
+    (total, product) => product?.price + total,
+    0
+  );
+  const totalSoldProductItem = soldProductState?.items?.reduce(
+    (total, product) => product?.quantity + total,
+    0
+  );
+  const totalSellByCategory = selectedData?.reduce(
+    (total, product) => product?.price + total,
+    0
+  );
 
-  console.log(selectedData)
+  // console.log(soldProductState.totalCount);
 
   return (
     <div>
@@ -253,7 +269,9 @@ const EmployeeHome = () => {
                         </h3>
                       </div>
                       <div>
-                        <h2 className="text-xl md:text-2xl font-bold ">1000</h2>
+                        <h2 className="text-xl md:text-2xl font-bold ">
+                          {selectedData?.length}
+                        </h2>
                       </div>
                     </div>
                   </div>

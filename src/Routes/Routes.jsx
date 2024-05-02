@@ -13,6 +13,7 @@ import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
 import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
 import Category from "../pages/Dashboard-employee/category/Category";
 import SellList from "../pages/Dashboard-employee/sellList/SellList";
+import ProductNotification from "../pages/Dashboard-employee/productNotification/ProductNotification";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/productNotification",
-            element: <ProductList />,
+            element: <ProductNotification />,
           },
           {
             path: "/addCategory",
