@@ -4,12 +4,13 @@ import AdminDashboard from "../../Dashboard-admin/adminDashboard/AdminDashboard"
 import useAdmin from "../../../hooks/useAdmin";
 import useEmployee from "../../../hooks/useEmployee";
 import LoginSwitch from "../../loginSwitch/LoginSwitch";
+import { BranchProvider } from "../../../components/BranchContext/BranchContext";
 
 const Home = () => {
   const [isEmployee, isEmployeeLoading] = useEmployee();
   const [isAdmin, isAdminLoading] = useAdmin();
-  console.log(isAdmin);
-  console.log(isEmployee);
+  // console.log(isAdmin);
+  // console.log(isEmployee);
 
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
@@ -44,11 +45,13 @@ const Home = () => {
           closeSideMenu={closeSideMenu}
         />
       ) : isAdmin ? (
-        <AdminDashboard
-          isSideMenuOpen={isSideMenuOpen}
-          toggleSideMenu={toggleSideMenu}
-          closeSideMenu={closeSideMenu}
-        />
+        <BranchProvider>
+          <AdminDashboard
+            isSideMenuOpen={isSideMenuOpen}
+            toggleSideMenu={toggleSideMenu}
+            closeSideMenu={closeSideMenu}
+          />
+        </BranchProvider>
       ) : (
         <LoginSwitch />
       )}

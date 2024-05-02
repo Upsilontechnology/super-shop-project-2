@@ -12,11 +12,12 @@ import branchesData from "../../../../public/branches.json";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { useBranch } from "../../../components/BranchContext/BranchContext";
 const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const { user: activeUser, loading } = useAuth();
   const [user, refetch] = useUser();
   const axios = useAxiosPrivate();
-
+  const { selectedBranch: fistB, updateBranch: secB } = useBranch();
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
 
   const handleChangeBranch = async (e) => {
@@ -32,7 +33,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       );
       return;
     }
-
+    secB(newBranch);
     await updateBranch(newBranch);
   };
   const updateBranch = async (newBranch) => {

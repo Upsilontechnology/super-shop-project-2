@@ -12,6 +12,7 @@ import LoginSwitch from "../pages/loginSwitch/LoginSwitch";
 import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
 import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
 import Category from "../pages/Dashboard-employee/category/Category";
+import SellList from "../pages/Dashboard-employee/sellList/SellList";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/sellList",
-            element: <ProductList />,
+            element: <SellList />,
           },
           {
             path: "/productNotification",
@@ -62,22 +63,21 @@ const router = createBrowserRouter([
             element: <AllEmployee />,
           },
         ],
-      }
+      },
     ],
   },
   {
-    path: 'login',
-    element: <Login />
+    path: "login",
+    element: <Login />,
   },
   {
-    path: 'register',
-    element: <Registration />
+    path: "register",
+    element: <Registration />,
   },
   {
-    path: 'loginSwitch',
-    element: <LoginSwitch />
-  }
-],
-);
+    path: "loginSwitch",
+    element: <LoginSwitch />,
+  },
+]);
 
 export default router;

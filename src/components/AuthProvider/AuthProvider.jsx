@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
-  console.log(loading);
+  // console.log(loading);
   const authInfo = {
     user,
     loading,
