@@ -18,10 +18,27 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const axios = useAxiosPrivate();
 
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
-  const updateBranch = async () => {
+
+  const handleChangeBranch = async (e) => {
+    e.preventDefault();
+    const newBranch = e.target.value;
+    setSelectedBranch(newBranch);
+
+    if (!newBranch) {
+      Swal.fire(
+        "Please Select",
+        "You must select a branch to update.",
+        "warning"
+      );
+      return;
+    }
+
+    await updateBranch(newBranch);
+  };
+  const updateBranch = async (newBranch) => {
     try {
       const res = await axios.patch(`/users/changebranch/${user._id}`, {
-        branch: selectedBranch,
+        branch: newBranch,
       });
       if (res.data.modifiedCount === 1) {
         refetch();
@@ -36,21 +53,6 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
     }
   };
 
-  const handleChangeBranch = async (e) => {
-    e.preventDefault();
-    setSelectedBranch(e.target.value);
-
-    if (!selectedBranch) {
-      Swal.fire(
-        "Please Select",
-        "You must select a branch to update.",
-        "warning"
-      );
-      return;
-    }
-
-    updateBranch();
-  };
   const navlinks = (
     <>
       <li className="relative px-2 py-1">
