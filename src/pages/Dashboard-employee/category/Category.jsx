@@ -33,6 +33,15 @@ const Category = () => {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     const form = e.target;
+    if (form.category.value === '') {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please Input some value",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
     const category = {
       category: form.category.value,
     };
@@ -108,11 +117,11 @@ const Category = () => {
   }, [categories]);
 
   return (
-    <div className="lg:ml-3 xl:ml-9 2xl:h-[80vh] lg:h-[85vh] mx-3 lg:mx-0 bg-white ">
+    <div className="overflow-auto rounded-md lg:ml-3 xl:ml-9 2xl:h-[80vh] lg:h-[83vh] mx-3 lg:mx-0 bg-white ">
       <div className="lg:p-5">
         <SectionTitle title={"Add Category "} />
       </div>
-      <div className="2xl:h-[65vh] lg:h-[70vh] rounded-lg px-1 py-3 md:p-3">
+      <div className="3xl:h-[55vh] 2xl:h-[59vh] lg:h-[90vh] rounded-lg px-1 py-3 md:p-3">
         <div className="flex flex-col md:justify-center items-center">
           {/* Add Category Form */}
           <div className="md:w-4/6 w-full mx-auto mb-5">
@@ -129,8 +138,8 @@ const Category = () => {
                   id=""
                 />
               </div>
-              <div className="mx-auto w-2/3 mt-3 md:mt-0 lg:w-1/3">
-                <button className="focus:outline-none focus:ring-2 w-full focus:border-transparent hover:bg-[#403030] bg-[#403030] text-neutral-50 font-semibold rounded-md flex justify-center items-center gap-1 px-2 h-[49px] text-xs whitespace-nowrap">
+              <div className="mx-auto w-full mt-3 md:mt-0 lg:w-1/3">
+                <button className="focus:outline-none focus:ring-2 w-full focus:border-transparent bg-[#757ec9] hover:bg-[#4a518e] text-neutral-50 font-semibold rounded-md flex justify-center items-center gap-1 px-2 h-[49px] text-xs whitespace-nowrap">
                   <IoMdAddCircleOutline className="text-lg" />
                   Add Category
                 </button>

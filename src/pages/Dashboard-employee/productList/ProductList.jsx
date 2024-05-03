@@ -73,10 +73,10 @@ const ProductList = () => {
   };
 
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
-      <SectionTitle title={"Temporary Sell List"} />
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg bg-white">
+      {/* <SectionTitle title={"Temporary Sell List"} /> */}
       <div className="bg-white p-2 md:p-5 rounded-md space-y-5">
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-col lg:flex-row gap-5">
           <div className="form-control lg:w-1/2 w-[96%] lg:mb-5 mb-2 mx-auto  placeholder:bg-gray-300 rounded-md">
             <input
               // value={searchValue}
@@ -97,10 +97,10 @@ const ProductList = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="table">
+          <table className="table text-center">
             {/* head */}
             <thead className="">
-              <tr className=" text-black  border-b-[1.2px] border-black">
+              <tr className=" text-black border-b-[1.2px] border-black">
                 <th>Sl</th>
                 <th>Code</th>
                 <th>Category</th>

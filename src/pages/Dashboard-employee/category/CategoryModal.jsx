@@ -57,7 +57,7 @@ const CategoryModal = ({ category, onClose, refetchCategories }) => {
                 />
               </div>
             </div>
-            <button className="focus:border-transparent bg-[#1D2A3B] hover:bg-[#131c29] text-white font-semibold py-2.5 rounded-md">
+            <button className="focus:border-transparent bg-[#757ec9] hover:bg-[#4a518e] text-white font-semibold py-2.5 rounded-md">
               Save
             </button>
           </form>

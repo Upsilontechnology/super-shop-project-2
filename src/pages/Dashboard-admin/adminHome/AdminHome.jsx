@@ -114,8 +114,9 @@ const AdminHome = () => {
       </div>
     );
   }
+
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg ">
       <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh]">
         <DashboardTitle
           title="Welcome to professional dashboard"
@@ -126,7 +127,7 @@ const AdminHome = () => {
             <h1 className="font-bold py-3 text-lg">Total Summary</h1>
           </div>
           <div>
-            <div className="grid grid-cols-4 gap-2 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 text-white">
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Product</h1>

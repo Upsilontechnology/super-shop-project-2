@@ -50,10 +50,6 @@ const router = createBrowserRouter([
             path: "/productNotification",
             element: <ProductNotification />,
           },
-          {
-            path: "/addCategory",
-            element: <ProductList />,
-          },
           // admin routes
           {
             path: "adminHome",

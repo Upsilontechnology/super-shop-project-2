@@ -90,7 +90,7 @@ const AllEmployee = () => {
 
   return (
     <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg ">
-      <div className=" mx-3 lg:mx-0 mt-10">
+      <div className=" md:mx-3 lg:mx-0 mt-10">
         {/* tabs */}
         <div className="lg:ml-3 xl:ml-0 h-full">
           <Tabs>
@@ -144,9 +144,9 @@ const AllEmployee = () => {
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div className="px-5 gap-4">
+                  <div className="px-2 md:px-5 gap-4">
                     <div className="overflow-x-auto">
-                      <table className="table">
+                      <table className="table text-center">
                         {/* head */}
                         <thead className="">
                           <tr className="text-black text-center border-b-[1.2px] border-black">

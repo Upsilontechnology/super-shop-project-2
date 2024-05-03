@@ -63,8 +63,8 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
-      <div className="mt-2 p-2  rounded-md 2xl:h-[66vh] h-screen flex items-center justify-center">
+    <div className="lg:overflow-scroll lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg bg-white">
+      <div className="mt-2 p-2 rounded-md 2xl:h-[66vh] h-full flex items-center justify-center">
         <div className="md:w-5/6 mx-auto w-full md:p-5 ">
           <div className="lg:py-4">
             <SectionTitle title={"Add Products Info"} />
@@ -179,7 +179,7 @@ const AddProduct = () => {
                 )}
               </div>
             </div>
-            <button className="focus:outline-none focus:ring-2 w-full mt-5 focus:border-transparent bg-mainBG hover:bg-blue-300 text-white font-semibold py-2.5 rounded-md">
+            <button className="focus:outline-none focus:ring-2 w-full mt-5 focus:border-transparent bg-[#757ec9] hover:bg-[#4a518e] text-white font-semibold py-2.5 rounded-md">
               Add Product
             </button>
           </form>

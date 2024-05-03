@@ -106,10 +106,10 @@ const EmployeeHome = () => {
   };
 
   const handleFilter = async (category, filterName) => {
-    // const categoryName = category.toLowerCase();
+    const categoryName = category.toLowerCase();
     // console.log(filterName);
     const res = await axiosPublic.get(
-      `/sellProducts/filter?role=${role}&branch=${branch}&email=${user?.email}&filterName=${filterName}&status=${status}`
+      `/sellProducts/filter?role=${role}&branch=${branch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
     );
     setSelectedData(res.data);
   };
@@ -139,7 +139,7 @@ const EmployeeHome = () => {
 
   return (
     <div>
-      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh] mx-4 lg:mx-0 lg:ml-10 rounded-md">
+      <div className="lg:overflow-scroll 2xl:h-[80vh] lg:h-[83vh] md:h-[82vh] h-[80vh] mx-4 lg:mx-0 xl:ml-9 lg:ml-3 rounded-md">
         <DashboardTitle
           title="Welcome to professional dashboard"
           descrition="Insights, management tools and ad creation - all in one place"
@@ -149,7 +149,7 @@ const EmployeeHome = () => {
             <h1 className="font-bold py-3 text-lg">Total Summary</h1>
           </div>
           <div className="">
-            <div className="grid grid-cols-4 gap-2 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 text-white">
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Product</h1>
@@ -180,8 +180,8 @@ const EmployeeHome = () => {
           </div>
           <div>
             <div>
-              <div className=" mt-4 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
-                <div className="font-bold flex flex-row  justify-between items-center mx-7 py-4">
+              <div className=" mt-4 4xl:h-[44vh] 3xl:h-[39vh] 2xl:h-[36.5vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
+                <div className="font-bold flex flex-row  justify-between items-center lg:mx-7 mx-3 py-4">
                   <div>
                     <select
                       className="bg-[#ebedfe] px-4 py-2 rounded"
@@ -248,7 +248,7 @@ const EmployeeHome = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center items-center mx-auto lg:w-4/6 w-5/6 4xl:my-10 3xl:my-5 md:my-0 my-5 ">
+                <div className="flex justify-center items-center mx-auto lg:w-4/6 w-[95%] 4xl:my-20 3xl:my-12 2xl:my-10 xl:my-14 md:my-20 my-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 px-1 md:px-0 gap-2 md:gap-5 w-full content-center">
                     <div className="w-full shadow-md rounded-md text-white flex flex-col gap-2 md:px-8 md:py-5 px-4 py-5 bg-[#4A518E]">
                       <div className="rounded-lg flex items-center gap-1">

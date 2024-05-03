@@ -10,6 +10,7 @@ import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { ReactToPrint } from "react-to-print";
 import { IoPrintOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 const SellList = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
@@ -33,8 +34,7 @@ const SellList = () => {
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/sellProducts?role=${role}&email=${
-            user?.email
+          `/sellProducts?role=${role}&email=${user?.email
           }&branch=${branch}&status=${"pending"}`
         );
         return res.data?.items;
@@ -100,8 +100,8 @@ const SellList = () => {
   };
 
   return (
-    <div className="overflow-hidden lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
-      <div className="p-5 flex justify-between">
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg bg-white">
+      {/* <div className="p-5 flex justify-between">
         <SectionTitle title={"Temporary Sell List"} />
         <div>
           <ReactToPrint
@@ -115,9 +115,24 @@ const SellList = () => {
             pageStyle="print"
           />
         </div>
-      </div>
+      </div> */}
       {sellproducts?.length > 0 ? (
         <div className="w-[90%] mx-auto">
+          <div className="p-5 flex justify-between">
+            <SectionTitle title={"Temporary Sell List"} />
+            <div>
+              <ReactToPrint
+                trigger={() => (
+                  <button className="font-bold rounded">
+                    <IoPrintOutline className="text-2xl" />
+                  </button>
+                )}
+                content={() => componentRef.current}
+                documentTitle="Product Summary"
+                pageStyle="print"
+              />
+            </div>
+          </div>
           <div className="bg-white p-2 md:p-5 rounded-md space-y-5">
             <div className="overflow-x-auto" ref={componentRef}>
               <table className="table">
@@ -161,20 +176,20 @@ const SellList = () => {
         </div>
       ) : (
         <>
-          <div className="bg-white md:h-auto overflow-scroll 2xl:h-[80vh] lg:h-[85vh] h-[77vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
+          <div className="bg-white md:h-auto overflow-scroll 2xl:h-[80vh] xl:h-[80vh] lg:h-[100vh] h-[81vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
             <div className="flex flex-col justify-center h-full items-center">
               <div className="flex justify-center items-center mt-4">
-                {/* <img className="w-[50%]" src={rectnglor} alt="" /> */}
+                <img className="w-[50%]" src='https://i.ibb.co/MC9sqSm/doctor-Profile-20.jpg' alt="" />
               </div>
-              <div className="text-center mt-6">
+              <div className="text-center mt-6 w-3/4 ">
                 <p className="font-semibold">
                   No Product Available to Show Here
                 </p>
-                {/* <Link to="/productList">
-                  <button className="focus:outline-none focus:ring-2 w-[50%] mt-5 focus:border-transparent bg-[#403030] hover:bg-[#221919] text-white font-semibold py-2.5 rounded-md">
-                    Add Product
+                <Link to="/productList">
+                  <button className="focus:outline-none focus:ring-2 w-[70%] mt-5 focus:border-transparent bg-[#757ec9] hover:bg-[#4a518e] text-white font-semibold py-2.5 rounded-md">
+                    Sell Product
                   </button>
-                </Link> */}
+                </Link>
               </div>
             </div>
           </div>

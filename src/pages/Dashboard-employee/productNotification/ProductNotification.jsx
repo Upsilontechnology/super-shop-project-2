@@ -44,11 +44,11 @@ const ProductNotification = () => {
     }
   }, [sellproducts]);
   return (
-    <div className="overflow-hidden lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg bg-white">
       <div className="p-5 flex justify-start">
         <SectionTitle title={"Product  Alert Notification"} />
       </div>
-      <div className="w-[60%] mx-auto">
+      <div className="w-[95%] lg:w-[60%] mx-auto">
         <div className="bg-white p-2 md:p-5 rounded-md space-y-5">
           <div className="overflow-x-auto">
             <table className="table">

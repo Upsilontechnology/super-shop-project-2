@@ -61,8 +61,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           defaultChecked
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="adminHome"
         >
@@ -74,8 +74,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="productList"
         >
@@ -87,8 +87,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#DFF8FC] w-48 pl-2 pr-2 py-1 rounded font-bold text-[#3d48df] hover:text-blue-600 text-base"
-              : "inline-flex items-center font-semibold pl-2 py-1 hover:text-blue-600 text-base"
+            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="allEmployee"
         >
