@@ -89,7 +89,7 @@ const AllEmployee = () => {
   }, [users]);
 
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg ">
+    <div className="lg:overflow-scroll  xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg ">
       <div className=" md:mx-3 lg:mx-0 mt-10">
         {/* tabs */}
         <div className="lg:ml-3 xl:ml-0 h-full">

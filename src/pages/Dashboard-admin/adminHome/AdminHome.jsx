@@ -22,8 +22,7 @@ const AdminHome = () => {
     const category = categoryName.toLowerCase();
 
     const res = await axiosPublic.get(
-      `/sellProducts/category?role=${role}&branch=${branch}&email=${
-        user?.email
+      `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email
       }&category=${category}&status=${"approved"}`
     );
     setSelectedData(res.data);
@@ -108,8 +107,8 @@ const AdminHome = () => {
   }
 
   return (
-    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg ">
-      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh]">
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
+      <div className="2xl:h-[80vh] lg:h-[83vh] md:h-[82vh] h-[80vh]">
         <DashboardTitle
           title="Welcome to professional dashboard"
           descrition="Insights, management tools and ad creation - all in one place"
@@ -150,11 +149,11 @@ const AdminHome = () => {
           </div>
           <div>
             <div>
-              <div className="flex flex-col mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
-                <div className="font-bold flex mx-7 py-4  justify-between items-center">
+              <div className=" mt-4 4xl:h-[44vh] 3xl:h-[39vh] 2xl:h-[36.5vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
+                <div className="font-bold flex flex-row  justify-between items-center lg:mx-7 mx-3 py-4">
                   <div>
                     <select
-                      className="bg-white px-4 py-2 rounded-md border-2"
+                      className="bg-[#ebedfe] px-4 py-2 rounded"
                       onChange={(e) => handleCategory(e.target.value)}
                       value={filter}
                     >
@@ -172,7 +171,7 @@ const AdminHome = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 -ml-16"
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 -ml-10"
                       >
                         <li>
                           <button
@@ -218,15 +217,12 @@ const AdminHome = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center items-center lg:w-4/6 w-5/6 4xl:my-10 3xl:my-5 md:my-0 my-5 mx-auto">
+                <div className="flex justify-center items-center mx-auto lg:w-4/6 w-[95%] 4xl:my-20 3xl:my-12 2xl:my-10 xl:my-14 md:my-20 my-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 px-1 md:px-0 gap-2 md:gap-5 w-full content-center">
-                    <div className="w-full shadow-md rounded-md flex flex-col gap-2 md:px-4 md:py-5 px-4 py-5 bg-white">
+                    <div className="w-full shadow-md rounded-md text-white flex flex-col gap-2 md:px-8 md:py-5 px-4 py-5 bg-[#4A518E]">
                       <div className="rounded-lg flex items-center gap-1">
-                        <div className="rounded-lg text-black text-base ">
-                          <IoBagOutline className="font-semibold" />
-                        </div>
-                        <h3 className="text-base font-semibold ">
-                          Total Sales
+                        <h3 className="text-base  ">
+                          Total Sales Amount (BDT)
                         </h3>
                       </div>
                       <div>
@@ -235,21 +231,16 @@ const AdminHome = () => {
                         </h2>
                       </div>
                     </div>
-                    <div className="w-full shadow-md rounded-md flex flex-col gap-2  md:p-5 px-4 py-5 bg-white">
+                    <div className="w-full shadow-md rounded-md flex flex-col gap-2  md:p-5 px-4 py-5 bg-[#4A518E] text-white">
                       <div className="rounded-lg flex items-center gap-1">
-                        <div className="rounded-lg text-black text-base ">
-                          <BsCart3 className="font-semibold" />
-                        </div>
-                        <h3 className="text-sm md:text-base font-semibold ">
-                          Total Orders
+                        <h3 className="text-sm md:text-base">
+                          Total Sales Item
                         </h3>
                       </div>
                       <div>
-                        <div>
-                          <h2 className="text-xl md:text-2xl font-bold ">
-                            {selectedData?.length}
-                          </h2>
-                        </div>
+                        <h2 className="text-xl md:text-2xl font-bold ">
+                          {selectedData?.length}
+                        </h2>
                       </div>
                     </div>
                   </div>
