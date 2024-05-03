@@ -9,27 +9,7 @@ import useRoleAndBranch from "../../../hooks/useRoleAndBranch";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
-
-// const selectCategory = {
-//   category: {
-//     name: "Select Category",
-//     options: [
-//       {
-//         id: 1,
-//         label: "Option 1",
-//       },
-//       {
-//         id: 2,
-//         label: "Option 2",
-//       },
-//       {
-//         id: 3,
-//         label: "Option 3",
-//       },
-//     ],
-//   },
-// };
-
+const status = "approved";
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
   const { selectedBranch, updateBranch } = useBranch();
@@ -37,17 +17,16 @@ const AdminHome = () => {
   const { user } = useAuth();
   const [selectedData, setSelectedData] = useState();
   const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
-  const [addBranch, setAddBranch] = useState(branch);
-  const handleCategory = async (category, index) => {
-    // setDefaultTab(index);
-    setFilter(category);
-    const categoryName = category.toLowerCase();
-    // console.log(categoryName);
 
-    // await axiosPublic.get(`/soldItems/${categoryName}`)
-    //     .then((res) => {
-    //         setSelectedData(res.data);
-    //     });
+  const handleCategory = async (categoryName, index) => {
+    const category = categoryName.toLowerCase();
+
+    const res = await axiosPublic.get(
+      `/sellProducts/category?role=${role}&branch=${branch}&email=${
+        user?.email
+      }&category=${category}&status=${"approved"}`
+    );
+    setSelectedData(res.data);
   };
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
@@ -62,7 +41,6 @@ const AdminHome = () => {
       }
     },
   });
-  console.log(categories);
   const {
     data: productState = [],
     refetch,
@@ -72,7 +50,7 @@ const AdminHome = () => {
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/products/1/state?role=${role}&branch=${addBranch}&email=${user?.email}`
+          `/products/1/state?role=${role}&branch=${branch}&email=${user?.email}`
         );
         return res.data;
       } catch (error) {
@@ -82,31 +60,45 @@ const AdminHome = () => {
     },
   });
 
-  useEffect(() => {
-    setAddBranch(selectedBranch);
-    refetch();
-  }, [selectedBranch, refetch]);
-
-  // useEffect(() => {
-  //   if (selectedBranch !== branch) {
-  //     refetch();
-  //     updateBranch(selectedBranch);
-  //   }
-  // }, [selectedBranch, refetch]);
+  const { data: soldProductState = [], refetch: soldProductRefetch } = useQuery(
+    {
+      queryKey: ["soldProductState", role, branch],
+      queryFn: async () => {
+        try {
+          const res = await axiosPublic.get(
+            `/sellProducts?role=${role}&branch=${branch}&email=${user?.email}&status=${status}`
+          );
+          setSelectedData(res.data?.items);
+          return res.data;
+        } catch (error) {
+          console.error("Error fetching Product Statistics:", error);
+          throw error;
+        }
+      },
+    }
+  );
 
   const handleFilter = async (category, filterName) => {
-    const categoryName = category.toLowerCase();
-    // const res = await axiosPublic.get(
-    //   `/soldItems/1/filter?categoryName=${categoryName}&filterName=${filterName}`
-    // );
+    const res = await axiosPublic.get(
+      `/sellProducts/filter?role=${role}&branch=${branch}&email=${user?.email}&filterName=${filterName}&status=${status}`
+    );
     setSelectedData(res.data);
   };
-  const handleOrderFilter = async (filterName) => {
-    // const res = await axiosPublic.get(
-    //   `/orderProduct/1/filter?filterName=${filterName}`
-    // );
-    setOrderProducts(res.data);
-  };
+  const totalSoldProductAmount = soldProductState?.items?.reduce(
+    (total, product) => product?.price + total,
+    0
+  );
+
+  console.log(soldProductState, totalSoldProductAmount);
+  const totalSoldProductItem = soldProductState?.items?.reduce(
+    (total, product) => product?.quantity + total,
+    0
+  );
+  const totalSellByCategory = selectedData?.reduce(
+    (total, product) => product?.price + total,
+    0
+  );
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -137,7 +129,7 @@ const AdminHome = () => {
               <div className="rounded-md bg-[#4A518E]">
                 <div className="p-5">
                   <h1>Total Sell (BDT)</h1>
-                  <h1 className="text-3xl">{productState?.totalSellAmount}</h1>
+                  <h1 className="text-3xl">{totalSoldProductAmount}</h1>
                 </div>
               </div>
               <div className="rounded-md bg-[#4A518E]">
@@ -151,7 +143,7 @@ const AdminHome = () => {
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">{categories?.items?.length}</h1>
+                  <h1 className="text-3xl">{productState?.allCategories}</h1>
                 </div>
               </div>
             </div>
@@ -239,7 +231,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          1000 BDT
+                          {totalSellByCategory}
                         </h2>
                       </div>
                     </div>
@@ -253,7 +245,11 @@ const AdminHome = () => {
                         </h3>
                       </div>
                       <div>
-                        <h2 className="text-xl md:text-2xl font-bold ">1000</h2>
+                        <div>
+                          <h2 className="text-xl md:text-2xl font-bold ">
+                            {selectedData?.length}
+                          </h2>
+                        </div>
                       </div>
                     </div>
                   </div>

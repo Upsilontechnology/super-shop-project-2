@@ -9,26 +9,6 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
 
-// const selectCategory = {
-//   category: {
-//     name: "Select Category",
-//     options: [
-//       {
-//         id: 1,
-//         label: "Option 1",
-//       },
-//       {
-//         id: 2,
-//         label: "Option 2",
-//       },
-//       {
-//         id: 3,
-//         label: "Option 3",
-//       },
-//     ],
-//   },
-// };
-
 const EmployeeHome = () => {
   const [filter, setFilter] = useState(null);
   const { selectedBranch, updateBranch } = useBranch();
@@ -75,6 +55,7 @@ const EmployeeHome = () => {
       },
     }
   );
+  console.log(soldProductState);
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -88,17 +69,9 @@ const EmployeeHome = () => {
       }
     },
   });
-  // useEffect(() => {
-  //   setAddBranch(selectedBranch);
-  //   refetch();
-  // }, [selectedBranch, refetch]);
 
   const handleCategory = async (categoryName, index) => {
-    // setDefaultTab(index);
-    // setFilter(category);
     const category = categoryName.toLowerCase();
-    // console.log(category);
-
     const res = await axiosPublic.get(
       `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email}&category=${category}&status=${status}`
     );
@@ -114,14 +87,6 @@ const EmployeeHome = () => {
     setSelectedData(res.data);
   };
 
-  // const handleOrderFilter = async (filterName) => {
-  //   const res = await axiosPublic.get(
-  //     `/orderProduct/1/filter?filterName=${filterName}`
-  //   );
-  //   setOrderProducts(res.data);
-  // };
-
-  // all reduced function
   const totalSoldProductAmount = soldProductState?.items?.reduce(
     (total, product) => product?.price + total,
     0
@@ -135,7 +100,13 @@ const EmployeeHome = () => {
     0
   );
 
-  // console.log(soldProductState.totalCount);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg "></span>
+      </div>
+    );
+  }
 
   return (
     <div>
