@@ -37,8 +37,7 @@ const ProductList = () => {
     isLoading,
   } = useQuery({
     queryKey: ["products", searchValue, itemsPerPage, currentPage, branch],
-    // cacheTime: 0,
-    // staleTime: Infinity,
+
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
@@ -81,7 +80,7 @@ const ProductList = () => {
             <input
               // value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              type="text"
+              type="number"
               placeholder="Search product with code"
               className="input  focus:outline-none bg-gray-100"
             />

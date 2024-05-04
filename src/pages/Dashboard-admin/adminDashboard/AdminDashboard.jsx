@@ -35,6 +35,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
     }
     secB(newBranch);
     await updateBranch(newBranch);
+    // await window.location.reload();
   };
   const updateBranch = async (newBranch) => {
     try {
@@ -61,8 +62,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           defaultChecked
           className={({ isActive }) =>
             isActive
-            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
-            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="adminHome"
         >
@@ -74,8 +75,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
-            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="productList"
         >
@@ -87,8 +88,8 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-            ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
-            : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
           to="allEmployee"
         >
@@ -130,13 +131,6 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           <div className="flex flex-col justify-start bg-white">
             <ul className="leading-5">{navlinks}</ul>
           </div>
-          {/* social icons */}
-          {/* <div className="flex gap-2 justify-center items-center">
-              <AiFillFacebook className="text-2xl rounded-full text-blue-500" />
-              <AiFillInstagram className="text-2xl rounded-full text-pink-600" />
-              <AiOutlineWhatsApp className="text-2xl rounded-full text-green-500" />
-              <AiOutlineTwitter className="text-2xl rounded-full" />
-            </div> */}
         </div>
       </aside>
       <div className="fixed inset-0 -z-10 flex items-end bg-slate-300 bg-opacity-50 sm:items-center sm:justify-center"></div>
@@ -146,27 +140,55 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
         } lg:hidden`}
       >
-        <div className="h-screen py-3 pl-3 flex flex-col justify-between shadow-xl">
+        <div className="h-screen py-3 pl-3 flex flex-col shadow-xl">
           {/* logo */}
+          <div className="flex justify-between w-full items-center mx-auto mt-2">
+            <div>
+              <h1 className="font-bold text-2xl">Sper Shop</h1>
+            </div>
+            <div>
+              <button
+                className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
+                onClick={toggleSideMenu}
+                aria-label="Menu"
+              >
+                {isSideMenuOpen ? (
+                  <FaXmark className="w-6 h-6" />
+                ) : (
+                  <FaBarsStaggered className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
           <div>
-            <p className="font-bold text-lg">Employee Dashboard</p>
+            <p className="font-semibold text-base mt-4 text-black">
+              Admin Dashboard
+            </p>
+          </div>
+          <div className=" p-1 rounded-md">
+            {/* <h1>{user?.branch} Branch</h1> */}
+            <select
+              onChange={handleChangeBranch}
+              className="p-1 border-2 rounded-md bg-mainBG text-white"
+              value={selectedBranch}
+            >
+              <option value={""}>{user?.branch} Branch</option>
+              {branchesData.map((branch) => (
+                <option key={branch.id} value={branch.name}>
+                  {branch.name}
+                </option>
+              ))}
+            </select>
           </div>
           {/* items and routes */}
-          <div className=" flex flex-col justify-between">
+          <div className=" flex flex-col justify-center h-svh">
             <ul className="leading-10">{navlinks}</ul>
           </div>
-          {/* social icons */}
-          {/* <div className="flex gap-2 justify-center items-center">
-              <AiFillFacebook className="text-2xl rounded-full text-blue-500" />
-              <AiFillInstagram className="text-2xl rounded-full text-pink-600" />
-              <AiOutlineWhatsApp className="text-2xl rounded-full text-green-500" />
-              <AiOutlineTwitter className="text-2xl rounded-full" />
-            </div> */}
         </div>
       </aside>
       {/* components */}
       <div className="flex flex-col flex-1 w-full bg-secBG overflow-y-auto ">
-        <header className="z-40 py-5 bg-slate-50 fixed w-full top-0 lg:hidden">
+        <header className="py-5 bg-slate-50 fixed w-full top-0 lg:hidden">
           {/* toggle button */}
           <div className="flex items-center justify-between h-8 px-6 mx-auto">
             <button
@@ -174,18 +196,13 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
               onClick={toggleSideMenu}
               aria-label="Menu"
             >
-              {isSideMenuOpen ? (
+              {!isSideMenuOpen && <FaBarsStaggered className="w-6 h-6" />}
+              {/* {isSideMenuOpen ? (
                 <FaXmark className="w-6 h-6" />
               ) : (
                 <FaBarsStaggered className="w-6 h-6" />
-              )}
+              )} */}
             </button>
-            {/* <div className="flex md:hidden justify-center mr-4 w-[80%]"></div> */}
-            {/* <div className="flex lg:hidden justify-end mr-4 w-full">
-                <button className="btn btn-sm">
-                  <IoPersonOutline className="text-xl" /> Logout
-                </button>
-              </div> */}
           </div>
         </header>
         <main className="scroll-smooth">

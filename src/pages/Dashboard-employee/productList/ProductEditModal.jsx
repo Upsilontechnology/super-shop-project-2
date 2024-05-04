@@ -34,30 +34,6 @@ const ProductEditModal = ({ onClose, refetchProducts, products }) => {
   });
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    // product added to the server
-    // axiosPublic.put(`/products/${id}`, productDetails).then((res) => {
-    //   console.log(res);
-    //   if (res.data.message === "success") {
-    //     Swal.fire({
-    //       position: "top-end",
-    //       icon: "success",
-    //       title: "Product added successfully",
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //     refetchProducts();
-    //     onClose();
-    //   } else {
-    //     Swal.fire({
-    //       position: "top-end",
-    //       icon: "error",
-    //       title: "Product Code has already been taken",
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   }
-    // });
     try {
       const productDetails = {
         productName: data?.name,
@@ -98,8 +74,8 @@ const ProductEditModal = ({ onClose, refetchProducts, products }) => {
   };
 
   return (
-    <div className="fixed z-[100] flex items-center justify-center inset-0 bg-black/10 duration-100">
-      <div className="w-[50%] rounded-xl bg-white px-4 py-3 scale-1 opacity-1 duration-200">
+    <div className="fixed z-[100] overflow-scroll  flex items-center justify-center inset-0 bg-black/10 duration-100 ">
+      <div className="lg:w-[50%] w-[95%] rounded-xl bg-white px-4 lg:py-3 py-1 scale-1 opacity-1 duration-200 lg:mt-0 mt-40">
         <div className="rounded-lg w-full">
           <button
             onClick={onClose}
@@ -114,7 +90,7 @@ const ProductEditModal = ({ onClose, refetchProducts, products }) => {
             {/* mapping the data */}
             {products?.map((product) => (
               <form key={product?._id} onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4 mb-2">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-1 md:gap-4 mb-2 lg:text-base text-sm">
                   {/* Product Name */}
                   <div className="form-control w-full my-1">
                     <input
@@ -146,7 +122,7 @@ const ProductEditModal = ({ onClose, refetchProducts, products }) => {
                     )}
                   </div>
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4 mb-2">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-1 md:gap-4  mb-2">
                   {/* Unit */}
                   <div className="form-control w-full my-1">
                     <input

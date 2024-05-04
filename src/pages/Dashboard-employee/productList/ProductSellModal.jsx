@@ -74,7 +74,7 @@ const ProductSellModal = ({ onClose, refetchProducts, products }) => {
 
   return (
     <div className="fixed z-[100] flex items-center justify-center inset-0 bg-black/10 duration-100">
-      <div className="w-[30%] rounded-xl bg-white px-4 py-3 scale-1 opacity-1 duration-200">
+      <div className="lg:w-[40%] w-[90%] rounded-xl bg-white px-4 py-3 scale-1 opacity-1 duration-200">
         <div className="rounded-lg w-full">
           <button
             onClick={onClose}
@@ -84,7 +84,7 @@ const ProductSellModal = ({ onClose, refetchProducts, products }) => {
           </button>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-2 rounded-lg space-y-3 px-14 py-24"
+            className="flex flex-col gap-2 rounded-lg space-y-3 lg:px-14 px-5 lg:py-24 py-10"
           >
             <div className="flex flex-col gap-2">
               <div className="form-control w-full my-1">

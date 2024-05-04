@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { IoBagOutline } from "react-icons/io5";
-import { BsCart3 } from "react-icons/bs";
 import { FaSortAmountDown } from "react-icons/fa";
 import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
@@ -9,20 +7,23 @@ import useRoleAndBranch from "../../../hooks/useRoleAndBranch";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
+
 const status = "approved";
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
   const { selectedBranch, updateBranch } = useBranch();
+  // const [dLodaing, setDloading] = useState(false);
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const [selectedData, setSelectedData] = useState();
   const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
-
+  // console.log(selectedBranch);
   const handleCategory = async (categoryName, index) => {
     const category = categoryName.toLowerCase();
 
     const res = await axiosPublic.get(
-      `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email
+      `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${
+        user?.email
       }&category=${category}&status=${"approved"}`
     );
     setSelectedData(res.data);
@@ -49,7 +50,7 @@ const AdminHome = () => {
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/products/1/state?role=${role}&branch=${branch}&email=${user?.email}`
+          `/products/1/state?role=${role}&branch=${selectedBranch}&email=${user?.email}`
         );
         return res.data;
       } catch (error) {
@@ -65,7 +66,7 @@ const AdminHome = () => {
       queryFn: async () => {
         try {
           const res = await axiosPublic.get(
-            `/sellProducts?role=${role}&branch=${branch}&email=${user?.email}&status=${status}`
+            `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
           );
           setSelectedData(res.data?.items);
           return res.data;
@@ -76,10 +77,15 @@ const AdminHome = () => {
       },
     }
   );
+  useEffect(() => {
+    if (selectedBranch) {
+      soldProductRefetch(), refetch();
+    }
+  }, [selectedBranch]);
 
   const handleFilter = async (category, filterName) => {
     const res = await axiosPublic.get(
-      `/sellProducts/filter?role=${role}&branch=${branch}&email=${user?.email}&filterName=${filterName}&status=${status}`
+      `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}`
     );
     setSelectedData(res.data);
   };
@@ -88,7 +94,7 @@ const AdminHome = () => {
     0
   );
 
-  console.log(soldProductState, totalSoldProductAmount);
+  // console.log(soldProductState, totalSoldProductAmount);
   const totalSoldProductItem = soldProductState?.items?.reduce(
     (total, product) => product?.quantity + total,
     0
