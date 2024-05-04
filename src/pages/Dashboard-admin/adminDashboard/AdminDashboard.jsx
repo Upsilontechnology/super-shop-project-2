@@ -65,7 +65,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
               ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
               : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
-          to="adminHome"
+          to="/adminHome"
         >
           <MdDashboard />
           <span className="ml-4">Overview</span>
@@ -78,7 +78,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
               ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
               : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
-          to="productList"
+          to="/productList"
         >
           <IoMdAddCircleOutline />
           <span className="ml-4">Product List</span>
@@ -91,7 +91,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
               ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
               : "inline-flex items-center font-normal pl-2 py-1 rounded hover:bg-[#757ec9] w-56 text-base"
           }
-          to="allEmployee"
+          to="/allEmployee"
         >
           <GiBoxUnpacking />
           <span className="ml-4">Employee</span>

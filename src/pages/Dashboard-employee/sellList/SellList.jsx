@@ -34,7 +34,8 @@ const SellList = () => {
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/sellProducts?role=${role}&email=${user?.email
+          `/sellProducts?role=${role}&email=${
+            user?.email
           }&branch=${branch}&status=${"pending"}`
         );
         return res.data?.items;
@@ -57,7 +58,7 @@ const SellList = () => {
     setOpenModal(true);
   };
   const totalAmount = sellproducts?.reduce(
-    (total, product) => total + product?.price,
+    (total, product) => total + product?.price * product?.quantity,
     0
   );
   const totalProduct = sellproducts?.reduce(
@@ -66,12 +67,12 @@ const SellList = () => {
   );
   const handleSoldProduct = async (product) => {
     // setItems(product);
-    console.log(product);
+    // console.log(product);
     const data = product?.map((data) => ({
       quantity: data?.quantity,
       code: data?.productCode,
     }));
-
+    // console.log(data);
     if (sellproducts?.length === 0) {
       Swal.fire({
         position: "top-end",
@@ -149,7 +150,7 @@ const SellList = () => {
                 <tbody className="">
                   {sellproducts?.map((product, index) => (
                     <SellProduct
-                      key={product._id}
+                      key={product?._id}
                       product={product}
                       onEdit={handleEditModal}
                       // onSell={handleSellModal}
@@ -162,7 +163,7 @@ const SellList = () => {
             </div>
           </div>
           <div className="w-1/2 float-right m-5">
-            <div className="flex justify-between p-5 border-2 border-black font-bold text-xl">
+            <div className="flex lg:flex-row flex-col justify-between p-5 border-2 border-black font-bold lg:text-xl text-base">
               <h1>Total({totalProduct})</h1>
               <h1>BDT({totalAmount})</h1>
             </div>
@@ -179,7 +180,11 @@ const SellList = () => {
           <div className="bg-white md:h-auto overflow-scroll 2xl:h-[80vh] xl:h-[80vh] lg:h-[100vh] h-[81vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
             <div className="flex flex-col justify-center h-full items-center">
               <div className="flex justify-center items-center mt-4">
-                <img className="w-[50%]" src='https://i.ibb.co/MC9sqSm/doctor-Profile-20.jpg' alt="" />
+                <img
+                  className="w-[50%]"
+                  src="https://i.ibb.co/MC9sqSm/doctor-Profile-20.jpg"
+                  alt=""
+                />
               </div>
               <div className="text-center mt-6 w-3/4 ">
                 <p className="font-semibold">

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import useEmployee from "../hooks/useEmployee";
 import useAuth from "../hooks/useAuth";
 
-const EmployeeRouter = () => {
+const EmployeeRouter = ({ children }) => {
   const { user, loading } = useAuth();
   const [isEmployee, isEmployeeLoading] = useEmployee();
   const location = useLocation();
