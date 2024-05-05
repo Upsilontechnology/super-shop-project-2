@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "../../../components/pagination/Pagination";
+import deepEqual from "deep-equal";
 
 const ProductNotification = () => {
   const [length, setLength] = useState(0);
@@ -14,26 +15,31 @@ const ProductNotification = () => {
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
+
   const {
     data: sellproducts = [],
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ["sellproducts", itemsPerPage, currentPage],
+    queryKey: ["sellproducts", branch],
+
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/sellProducts/notification?role=${role}&email=${
-            user?.email
-          }&branch=${branch}&status=${"approved"}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`
+          `/products/search?role=${role}&branch=${branch}&email=${user?.email}&itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`
         );
-        return res.data?.items;
+        return res.data.items;
       } catch (error) {
-        console.error("Error fetching sell products:", error);
+        console.error("Error fetching categories:", error);
         throw error;
       }
     },
+    equalityFn: deepEqual,
   });
+  // console.log(sellproducts);
+  const datafilter = sellproducts?.filter((dd) => dd.quantity < 10);
+
+  // console.log(datafilter);
   useEffect(() => {
     if (sellproducts && sellproducts?.length) {
       setLength(sellproducts?.length);
@@ -62,7 +68,7 @@ const ProductNotification = () => {
                 </tr>
               </thead>
               <tbody className="">
-                {sellproducts?.map((product, index) => (
+                {datafilter?.map((product, index) => (
                   <NotificationList
                     key={product._id}
                     product={product}

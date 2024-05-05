@@ -11,12 +11,17 @@ const status = "approved";
 
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
-  const { selectedBranch } = useBranch();
+  const { selectedBranch, updateBranch } = useBranch();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
 
+  useEffect(() => {
+    if (role === "Admin") {
+      updateBranch(branch);
+    }
+  }, []);
   const handleCategory = async (categoryName) => {
     const category = categoryName.toLowerCase();
     try {

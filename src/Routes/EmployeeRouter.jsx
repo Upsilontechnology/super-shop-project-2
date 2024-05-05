@@ -19,7 +19,9 @@ const EmployeeRouter = ({ children }) => {
   if (user && isEmployee) {
     return children;
   }
-  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
+  return (
+    <Navigate to="/employeeHome" state={{ from: location }} replace></Navigate>
+  );
 };
 
 export default EmployeeRouter;

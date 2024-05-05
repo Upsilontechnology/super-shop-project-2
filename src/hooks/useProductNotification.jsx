@@ -17,9 +17,7 @@ const useProductNotification = () => {
     queryFn: async () => {
       try {
         const res = await axiosPublic.get(
-          `/sellProducts/notification?role=${role}&email=${
-            user?.email
-          }&branch=${branch}&status=${"approved"}`
+          `/products/search?role=${role}&branch=${branch}&email=${user?.email}`
         );
         return res.data?.items;
       } catch (error) {
@@ -28,7 +26,8 @@ const useProductNotification = () => {
       }
     },
   });
-  return { productNotificationData, refetch, isLoading };
+  const datafilter = productNotificationData?.filter((dd) => dd.quantity < 10);
+  return { datafilter, refetch, isLoading };
 };
 
 export default useProductNotification;

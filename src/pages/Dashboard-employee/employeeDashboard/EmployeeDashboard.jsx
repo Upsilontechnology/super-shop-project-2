@@ -19,10 +19,11 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const navigate = useNavigate();
   const { sellproducts, refetch, isLoading } = useSellProducts();
   const {
-    productNotificationData,
+    datafilter,
     refetch: nFetch,
     isLoading: nLoading,
   } = useProductNotification();
+
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -128,7 +129,7 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         >
           <MdOutlineNotifications />
           <span className="ml-4 text-nowrap">
-            Product Notification ({productNotificationData?.length}){" "}
+            Product Notification ({datafilter?.length}){" "}
           </span>
         </NavLink>
       </li>
@@ -147,8 +148,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
             {/* logo */}
             <div>
               <p className="font-bold text-lg">Employee Dashboard</p>
-              <div className="bg-mainBG text-white p-1 rounded-md w-1/2">
-                <h1>{user?.branch} Branch</h1>
+              <div className="bg-mainBG text-white p-1 rounded-md w-fit">
+                <h1 className="text-nowrap">{user?.branch} Branch</h1>
               </div>
             </div>
             {/* items and routes */}

@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { getToken } from "../../components/AuthProvider/AuthApi";
+import useRole from "../../hooks/useRole";
 
 const Login = () => {
-  const { signInUser, googleSignIn } = useAuth();
+  const { signInUser } = useAuth();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -18,22 +19,18 @@ const Login = () => {
     const password = form.password.value;
 
     setError("");
-    // console.log(email);
     try {
-      const user1 = await signInUser(email, password);
-      console.log(user1.user.email);
-      await getToken(user1?.user?.email);
-      navigate("/employeeHome");
-      //   const loggedUser = await useUserRoll(user1.user.email);
-      //   console.log(loggedUser);
+      const userCheak = await signInUser(email, password);
+      await getToken(userCheak?.user?.email);
+      const loggedUser = await useRole(userCheak?.user?.email);
 
-      //   if (loggedUser === "employee") {
-      //     navigate("/employeeHome");
-      //   } else if (loggedUser === "admin") {
-      //     navigate("/adminHome");
-      //   } else {
-      //     navigate("/");
-      //   }
+      if (loggedUser === "Employee") {
+        navigate("/employeeHome");
+      } else if (loggedUser === "Admin") {
+        navigate("/adminHome");
+      } else {
+        navigate("/message");
+      }
 
       Swal.fire({
         position: "top-end",
@@ -49,9 +46,6 @@ const Login = () => {
 
   return (
     <div className="font-Montserrat w-full">
-      {/* <Helmet>
-            <title>JobsWorld | Login </title>
-        </Helmet> */}
       <div className="bg-[#ebedfe] w-full text-center 4xl:py-12 py-5 text-[#565fa8] flex justify-center items-center">
         <h1 className="text-[46px] font-bold mt-0">Log In</h1>
       </div>
@@ -115,6 +109,15 @@ const Login = () => {
                   Do not have an account?{" "}
                   <Link className="font-bold text-[#6486FD]" to="/register">
                     Register Now
+                  </Link>
+                </p>
+                <p className="mt-1">
+                  Are you Forgot the Password?{" "}
+                  <Link
+                    className="font-semibold text-[#6486FD]"
+                    to="/forgetpassword"
+                  >
+                    Forgot Password
                   </Link>
                 </p>
               </div>

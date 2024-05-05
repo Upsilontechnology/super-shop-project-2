@@ -16,6 +16,8 @@ import SellList from "../pages/Dashboard-employee/sellList/SellList";
 import ProductNotification from "../pages/Dashboard-employee/productNotification/ProductNotification";
 import EmployeeRouter from "./EmployeeRouter";
 import AdminRouter from "./AdminRouter";
+import RegistrationMessage from "../pages/registration/RegistrationMessage";
+import ForgetPass from "../pages/forgetPass/ForgetPass";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +106,14 @@ const router = createBrowserRouter([
   {
     path: "loginSwitch",
     element: <LoginSwitch />,
+  },
+  {
+    path: "message",
+    element: <RegistrationMessage />,
+  },
+  {
+    path: "forgetpassword",
+    element: <ForgetPass />,
   },
 ]);
 

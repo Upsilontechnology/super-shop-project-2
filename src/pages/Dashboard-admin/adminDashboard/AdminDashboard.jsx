@@ -19,7 +19,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const axios = useAxiosPrivate();
   const { selectedBranch: fistB, updateBranch: secB } = useBranch();
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
-
+  console.log(selectedBranch);
   const handleChangeBranch = async (e) => {
     e.preventDefault();
     const newBranch = e.target.value;
