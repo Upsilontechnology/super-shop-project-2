@@ -11,10 +11,11 @@ const status = "approved";
 
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
+  const [defaultTab, setDefaultTab] = useState(0);
   const { selectedBranch, updateBranch } = useBranch();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
-  const [selectedData, setSelectedData] = useState();
+  const [selectedData, setSelectedData] = useState([]);
   const [role, branch] = useRoleAndBranch();
 
   useEffect(() => {
@@ -22,17 +23,7 @@ const AdminHome = () => {
       updateBranch(branch);
     }
   }, []);
-  const handleCategory = async (categoryName) => {
-    const category = categoryName.toLowerCase();
-    try {
-      const res = await axiosPublic.get(
-        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
-      );
-      setSelectedData(res.data);
-    } catch (error) {
-      console.error("Error fetching products by category:", error);
-    }
-  };
+
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -47,16 +38,6 @@ const AdminHome = () => {
     },
   });
 
-  const handleFilter = async (category, filterName) => {
-    try {
-      const res = await axiosPublic.get(
-        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}`
-      );
-      setSelectedData(res.data);
-    } catch (error) {
-      console.error("Error fetching filtered products:", error);
-    }
-  };
 
   const {
     data: productState = [],
@@ -109,6 +90,42 @@ const AdminHome = () => {
     refetchSoldProductState,
     refetchProductState,
   ]);
+
+  useEffect(() => {
+    if (categories?.items.length > 0) {
+      handleCategory(categories?.items[defaultTab]?.category, defaultTab);
+    }
+  }, [categories?.items]);
+
+
+  const handleCategory = async (categoryName, index) => {
+    setDefaultTab(index);
+    setFilter(categoryName);
+    const category = categoryName?.toLowerCase();
+    // console.log(filter, categoryName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+    }
+  };
+console.log(selectedData)
+  const handleFilter = async (category, filterName) => {
+    const categoryName = category.toLowerCase();
+    // console.log(category, filterName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
 
   const totalSoldProductAmount = soldProductState?.items?.reduce(
     (total, product) => product?.price + total,
