@@ -284,7 +284,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {selectedData?.length}
+                          {selectedData?.length || 0}
                         </h2>
                       </div>
                     </div>
