@@ -2,8 +2,10 @@ import React from "react";
 import { IoPersonOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router";
 const Header = () => {
   const { logOut, user } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
