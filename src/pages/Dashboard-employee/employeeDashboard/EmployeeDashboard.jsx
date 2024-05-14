@@ -1,17 +1,8 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import {
-  AiFillFacebook,
-  AiFillInstagram,
-  AiOutlineHome,
-  AiOutlineSchedule,
-  AiOutlineTwitter,
-  AiOutlineWhatsApp,
-} from "react-icons/ai";
-import { BiBarChart } from "react-icons/bi";
+
 import { RiFileList3Line } from "react-icons/ri";
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
-import { IoBagAddOutline, IoPersonOutline } from "react-icons/io5";
 import Header from "../../../components/shared/header/Header";
 import { MdDashboard, MdOutlineNotifications } from "react-icons/md";
 import { CiViewList } from "react-icons/ci";
@@ -20,10 +11,18 @@ import { GiBoxUnpacking } from "react-icons/gi";
 import useUser from "../../../hooks/useUser";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useSellProducts from "../../../hooks/useSellProducts";
+import useProductNotification from "../../../hooks/useProductNotification";
 const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const [user] = useUser();
   const { logOut } = useAuth();
   const navigate = useNavigate();
+  const { sellproducts, refetch, isLoading } = useSellProducts();
+  const {
+    datafilter,
+    refetch: nFetch,
+    isLoading: nLoading,
+  } = useProductNotification();
 
   const handleLogout = () => {
     Swal.fire({
@@ -116,7 +115,7 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           to="sellList"
         >
           <RiFileList3Line />
-          <span className="ml-4">Sell List</span>
+          <span className="ml-4">Sell List ({sellproducts?.length})</span>
         </NavLink>
       </li>
 
@@ -124,13 +123,15 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-56 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
-              : "inline-flex items-center font-normal pl-2 py-1 w-56 rounded hover:bg-[#757ec9] text-base"
+              ? "inline-flex items-center bg-[#757ec9] hover:bg-[#4a518e] w-60 pl-2 pr-2 py-1 rounded font-normal text-white text-base"
+              : "inline-flex items-center font-normal pl-2 py-1 w-60 rounded hover:bg-[#757ec9] text-base"
           }
           to="productNotification"
         >
           <MdOutlineNotifications />
-          <span className="ml-4">Product Notification</span>
+          <span className="ml-4 text-nowrap">
+            Product Notification ({datafilter?.length}){" "}
+          </span>
         </NavLink>
       </li>
     </>
@@ -148,8 +149,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
             {/* logo */}
             <div>
               <p className="font-bold text-lg">Employee Dashboard</p>
-              <div className="bg-mainBG text-white p-1 rounded-md w-1/2">
-                <h1>{user?.branch} Branch</h1>
+              <div className="bg-mainBG text-white p-1 rounded-md w-fit">
+                <h1 className="text-nowrap">{user?.branch} Branch</h1>
               </div>
             </div>
             {/* items and routes */}

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import useEmployee from "../hooks/useEmployee";
 import useAuth from "../hooks/useAuth";
 
-const EmployeeRouter = () => {
+const EmployeeRouter = ({ children }) => {
   const { user, loading } = useAuth();
   const [isEmployee, isEmployeeLoading] = useEmployee();
   const location = useLocation();
@@ -19,7 +19,9 @@ const EmployeeRouter = () => {
   if (user && isEmployee) {
     return children;
   }
-  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
+  return (
+    <Navigate to="/employeeHome" state={{ from: location }} replace></Navigate>
+  );
 };
 
 export default EmployeeRouter;

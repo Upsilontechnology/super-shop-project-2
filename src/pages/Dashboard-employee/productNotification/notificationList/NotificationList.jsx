@@ -1,8 +1,6 @@
 import React from "react";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
 const NotificationList = ({ product, refetchProducts, index }) => {
-  const axiosPublic = useAxiosPublic();
   return (
     <tr className=" border-b-[1.2px] border-black">
       <td>{index + 1}</td>

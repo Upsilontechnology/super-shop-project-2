@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { FaSortAmountDown } from "react-icons/fa";
 import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
@@ -9,25 +8,23 @@ import { useQuery } from "@tanstack/react-query";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
 
 const status = "approved";
+
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
+  const [defaultTab, setDefaultTab] = useState(0);
   const { selectedBranch, updateBranch } = useBranch();
-  // const [dLodaing, setDloading] = useState(false);
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
+  const [fetchedData, setFetchedData] = useState();
   const [selectedData, setSelectedData] = useState();
-  const [role, branch, isFetching, error, roleRefetch] = useRoleAndBranch();
-  // console.log(selectedBranch);
-  const handleCategory = async (categoryName, index) => {
-    const category = categoryName.toLowerCase();
+  const [role, branch] = useRoleAndBranch();
 
-    const res = await axiosPublic.get(
-      `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${
-        user?.email
-      }&category=${category}&status=${"approved"}`
-    );
-    setSelectedData(res.data);
-  };
+  useEffect(() => {
+    if (role === "Admin") {
+      updateBranch(branch);
+    }
+  }, []);
+
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -41,10 +38,12 @@ const AdminHome = () => {
       }
     },
   });
+
+
   const {
     data: productState = [],
-    refetch,
-    isLoading,
+    refetch: refetchProductState,
+    isLoading: isLoadingProductState,
   } = useQuery({
     queryKey: ["productState", role, branch],
     queryFn: async () => {
@@ -60,57 +59,97 @@ const AdminHome = () => {
     },
   });
 
-  const { data: soldProductState = [], refetch: soldProductRefetch } = useQuery(
-    {
-      queryKey: ["soldProductState", role, branch],
-      queryFn: async () => {
-        try {
-          const res = await axiosPublic.get(
-            `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
-          );
-          setSelectedData(res.data?.items);
-          return res.data;
-        } catch (error) {
-          console.error("Error fetching Product Statistics:", error);
-          throw error;
-        }
-      },
-    }
-  );
+  const {
+    data: soldProductState = [],
+    refetch: refetchSoldProductState,
+    isLoading: isLoadingSoldProductState,
+  } = useQuery({
+    queryKey: ["soldProductState", role, branch],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get(
+          `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
+        );
+        setFetchedData(res.data?.items);
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching Sold Product Statistics:", error);
+        throw error;
+      }
+    },
+  });
+
   useEffect(() => {
     if (selectedBranch) {
-      soldProductRefetch(), refetch();
+      refetchCategory();
+      refetchSoldProductState();
+      refetchProductState();
     }
-  }, [selectedBranch]);
+  }, [
+    selectedBranch,
+    refetchCategory,
+    refetchSoldProductState,
+    refetchProductState,
+  ]);
 
-  const handleFilter = async (category, filterName) => {
-    const res = await axiosPublic.get(
-      `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}`
-    );
-    setSelectedData(res.data);
+  useEffect(() => {
+    if (categories?.items.length > 0) {
+      handleCategory(categories?.items[defaultTab]?.category, defaultTab);
+    }
+  }, [categories?.items]);
+
+
+  const handleCategory = async (categoryName, index) => {
+    setDefaultTab(index);
+    setFilter(categoryName);
+    const category = categoryName?.toLowerCase();
+    // console.log(filter, categoryName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+    }
   };
+  console.log(selectedData)
+  const handleFilter = async (category, filterName) => {
+    const categoryName = category.toLowerCase();
+    // console.log(category, filterName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
+
   const totalSoldProductAmount = soldProductState?.items?.reduce(
     (total, product) => product?.price + total,
     0
-  );
+  ) || 0;
 
-  // console.log(soldProductState, totalSoldProductAmount);
   const totalSoldProductItem = soldProductState?.items?.reduce(
     (total, product) => product?.quantity + total,
     0
   );
+
   const totalSellByCategory = selectedData?.reduce(
     (total, product) => product?.price + total,
     0
-  );
+  ) || 0;
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg "></span>
-      </div>
-    );
-  }
+  // if (isLoadingProductState || isLoadingSoldProductState) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <span className="loading loading-dots loading-lg "></span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
@@ -245,7 +284,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {selectedData?.length}
+                          {selectedData?.length || 0}
                         </h2>
                       </div>
                     </div>

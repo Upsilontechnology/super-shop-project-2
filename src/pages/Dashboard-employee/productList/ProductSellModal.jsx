@@ -16,8 +16,8 @@ const ProductSellModal = ({ onClose, refetchProducts, products }) => {
   const [id, setId] = useState("");
 
   useEffect(() => {
-    setId(products[0]._id);
-  }, [products[0]._id]);
+    setId(products[0]?._id);
+  }, [products[0]?._id]);
 
   const {
     register,
