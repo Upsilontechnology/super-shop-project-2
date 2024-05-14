@@ -15,7 +15,8 @@ const AdminHome = () => {
   const { selectedBranch, updateBranch } = useBranch();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
-  const [selectedData, setSelectedData] = useState([]);
+  const [fetchedData, setFetchedData] = useState();
+  const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
 
   useEffect(() => {
@@ -69,7 +70,7 @@ const AdminHome = () => {
         const res = await axiosPublic.get(
           `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
         );
-        setSelectedData(res.data?.items);
+        setFetchedData(res.data?.items);
         return res.data;
       } catch (error) {
         console.error("Error fetching Sold Product Statistics:", error);
@@ -112,7 +113,7 @@ const AdminHome = () => {
       console.error("Error fetching products by category:", error);
     }
   };
-console.log(selectedData)
+  console.log(selectedData)
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
     // console.log(category, filterName)
@@ -130,7 +131,7 @@ console.log(selectedData)
   const totalSoldProductAmount = soldProductState?.items?.reduce(
     (total, product) => product?.price + total,
     0
-  );
+  ) || 0;
 
   const totalSoldProductItem = soldProductState?.items?.reduce(
     (total, product) => product?.quantity + total,
@@ -140,7 +141,7 @@ console.log(selectedData)
   const totalSellByCategory = selectedData?.reduce(
     (total, product) => product?.price + total,
     0
-  );
+  ) || 0;
 
   // if (isLoadingProductState || isLoadingSoldProductState) {
   //   return (

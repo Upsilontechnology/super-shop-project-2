@@ -98,7 +98,7 @@ const AllEmployee = () => {
             <TabList className="font-bold flex justify-center lg:gap-3 gap-2 mt-2 mb-4">
               <Tab
                 className="border-none outline-none bg-white lg:py-5 lg:px-14 py-3 px-10 rounded-md cursor-pointer"
-                selectedClassName="selected-tab outline-none border-none bg-indigo-300 text-white lg:py-5 lg:px-14 py-3 px-10"
+                selectedClassName="selected-tab outline-none border-none bg-indigo-400 text-white lg:py-5 lg:px-14 py-3 px-10"
                 onClick={() => handleStatus("pending")}
               >
                 Pending
