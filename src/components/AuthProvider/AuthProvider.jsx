@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -32,7 +33,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("current user in auth Provider", currentUser);
+      // console.log("current user in auth Provider", currentUser);
       setLoading(false);
     });
     return () => {
@@ -51,7 +52,18 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
-  console.log(loading);
+  // console.log(loading);
+  const forgetPassword = async (email) => {
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      console.log("Password reset email sent successfully.");
+    } catch (error) {
+      console.error("forgetPassword error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const authInfo = {
     user,
     loading,
@@ -60,6 +72,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     logOut,
     googleSignIn,
+    forgetPassword,
   };
 
   return (

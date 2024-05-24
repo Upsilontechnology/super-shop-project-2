@@ -35,13 +35,13 @@ const ApprovedEmployee = ({ users, index, onEdit, refetchByApproved }) => {
     };
 
     return (
-        <tr className=" border-b-[1.2px] border-black text-center ">
+        <tr className=" border-b-[1.2px] border-black  ">
             <th>{index + 1}</th>
             <td>{users?.name}</td>
             <td>{users?.email}</td>
             <td>{users?.branch.toUpperCase()}</td>
             <td>{users?.role}</td>
-            <th>
+            <th className="flex flex-row justify-center">
                 <button
                     onClick={() => onEdit(users)}
                     className="btn btn-ghost btn-xs">

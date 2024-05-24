@@ -11,6 +11,7 @@ import AllEmployeeRow from "./AllEmployeeRow";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import ApprovedEmployee from "../approveEmployee/ApprovedEmployee";
+import "./allEmployee.css"
 
 const AllEmployee = () => {
   const axiosPublic = useAxiosPublic();
@@ -40,7 +41,7 @@ const AllEmployee = () => {
     },
   });
 
-  console.log(users);
+  // console.log(users);
 
   // const handleDelete = async (userId) => {
   //   try {
@@ -89,8 +90,8 @@ const AllEmployee = () => {
   }, [users]);
 
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg ">
-      <div className=" mx-3 lg:mx-0 mt-10">
+    <div className="lg:overflow-scroll xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg ">
+      <div className=" md:mx-3 lg:mx-0 mt-10">
         {/* tabs */}
         <div className="lg:ml-3 xl:ml-0 h-full">
           <Tabs>
@@ -98,14 +99,14 @@ const AllEmployee = () => {
             <TabList className="font-bold flex justify-center lg:gap-3 gap-2 mt-2 mb-4">
               <Tab
                 className="border-none outline-none bg-white lg:py-5 lg:px-14 py-3 px-10 rounded-md cursor-pointer"
-                selectedClassName="selected-tab outline-none border-none bg-indigo-300 text-white lg:py-5 lg:px-14 py-3 px-10"
+                selectedClassName="selected-tab outline-none border-none text-white lg:py-5 lg:px-14 py-3 px-10"
                 onClick={() => handleStatus("pending")}
               >
                 Pending
               </Tab>
               <Tab
                 className="border-none outline-none bg-white lg:py-5 lg:px-14 py-3 px-10 rounded-md cursor-pointer"
-                selectedClassName="selected-tab outline-none border-none bg-indigo-300 text-white lg:py-5 lg:px-14 py-3 px-10"
+                selectedClassName="selected-tab outline-none border-none text-white lg:py-5 lg:px-14 py-3 px-10"
                 onClick={() => handleStatus("approved")}
               >
                 Approved
@@ -144,9 +145,9 @@ const AllEmployee = () => {
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div className="px-5 gap-4">
+                  <div className="px-2 md:px-5 gap-4">
                     <div className="overflow-x-auto">
-                      <table className="table">
+                      <table className="table text-center">
                         {/* head */}
                         <thead className="">
                           <tr className="text-black text-center border-b-[1.2px] border-black">

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const LoginSwitch = () => {
   return (
     <div className="font-Montserrat w-full">
-      <div className="flex items-center justify-center h-full 4xl:py-20 py-10 rounded-lg">
+      <div className="flex items-center justify-center h-screen 4xl:py-20 py-10 rounded-lg">
         <div className=" flex flex-col w-full 4xl:py-20 py-10 md:w-[768px] ">
           <div className="bg-[#ebedfe] rounded-lg  py-[10%] px-[5%]  md:px-[15%]">
             <div className="flex gap-4 flex-col md:flex-row mt-8">

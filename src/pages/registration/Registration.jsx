@@ -26,7 +26,7 @@ const Registration = () => {
       email: email,
       role: "user",
       branch: "none",
-      status: 'pending'
+      status: "pending",
     };
     console.log(userInfo);
 
@@ -46,7 +46,7 @@ const Registration = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          // navigate("/message");
+          navigate("/message");
         }
       });
       await getToken(result?.user?.email);
@@ -88,7 +88,7 @@ const Registration = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   name="password"
-                  className="w-full py-4 bg-[#ebedfe] border-1.5 border-[#6f98b9] placeholder-[#444444] rounded-lg border outline-none pl-8 pr-2"
+                  className="w-full py-4 bg-[#ebedfe] border-1.5 border-[#6f98b9] placeholder-[#52b8fc] rounded-lg border outline-none pl-8 pr-2"
                 />
                 <span
                   className="absolute right-0 cursor-pointer mr-5 mt-2"
@@ -128,7 +128,7 @@ const Registration = () => {
               <h4 className="flex gap-2  ">
                 Already have an account?{" "}
                 <Link
-                  to={"/login"}
+                  to={"/"}
                   className="text-[#6486FD] font-bold cursor-pointer"
                 >
                   Log In

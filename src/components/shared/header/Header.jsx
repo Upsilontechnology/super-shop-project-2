@@ -2,8 +2,10 @@ import React from "react";
 import { IoPersonOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router";
 const Header = () => {
   const { logOut, user } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -31,7 +33,7 @@ const Header = () => {
   return (
     <>
       <div className="w-full bg-mainBG border-b-2 border-mainBG">
-        <div className="flex flex-row justify-between py-3 3xl:w-[76%] 2xl:w-[74%] 2xl:mx-auto mx-3">
+        <div className="flex flex-row justify-between py-3 3xl:w-[76%] 2xl:w-[76%] 2xl:mx-auto mx-3">
           <div className="w-44 md:w-[600px] lg:w-[700px]">
             <h2 className="text-white font-bold text-lg">Super Shop</h2>
           </div>

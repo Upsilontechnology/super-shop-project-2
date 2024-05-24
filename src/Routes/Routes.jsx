@@ -12,6 +12,12 @@ import LoginSwitch from "../pages/loginSwitch/LoginSwitch";
 import AdminHome from "../pages/Dashboard-admin/adminHome/AdminHome";
 import AllEmployee from "../pages/Dashboard-admin/allEmployee/AllEmployee";
 import Category from "../pages/Dashboard-employee/category/Category";
+import SellList from "../pages/Dashboard-employee/sellList/SellList";
+import ProductNotification from "../pages/Dashboard-employee/productNotification/ProductNotification";
+import EmployeeRouter from "./EmployeeRouter";
+import AdminRouter from "./AdminRouter";
+import RegistrationMessage from "../pages/registration/RegistrationMessage";
+import ForgetPass from "../pages/forgetPass/ForgetPass";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +32,19 @@ const router = createBrowserRouter([
           // employee route
           {
             path: "/employeeHome",
-            element: <EmployeeHome />,
+            element: (
+              <EmployeeRouter>
+                <EmployeeHome />,
+              </EmployeeRouter>
+            ),
           },
           {
             path: "/category",
-            element: <Category />,
+            element: (
+              <EmployeeRouter>
+                <Category />,
+              </EmployeeRouter>
+            ),
           },
           {
             path: "/productList",
@@ -38,46 +52,69 @@ const router = createBrowserRouter([
           },
           {
             path: "/addProduct",
-            element: <AddProduct />,
+            element: (
+              <EmployeeRouter>
+                <AddProduct />,
+              </EmployeeRouter>
+            ),
           },
           {
             path: "/sellList",
-            element: <ProductList />,
+            element: (
+              <EmployeeRouter>
+                <SellList />,
+              </EmployeeRouter>
+            ),
           },
           {
             path: "/productNotification",
-            element: <ProductList />,
-          },
-          {
-            path: "/addCategory",
-            element: <ProductList />,
+            element: (
+              <EmployeeRouter>
+                <ProductNotification />,
+              </EmployeeRouter>
+            ),
           },
           // admin routes
           {
-            path: "adminHome",
-            element: <AdminHome />,
+            path: "/adminHome",
+            element: (
+              <AdminRouter>
+                <AdminHome />,
+              </AdminRouter>
+            ),
           },
           {
-            path: "allEmployee",
-            element: <AllEmployee />,
+            path: "/allEmployee",
+            element: (
+              <AdminRouter>
+                <AllEmployee />,
+              </AdminRouter>
+            ),
           },
         ],
-      }
+      },
     ],
   },
   {
-    path: 'login',
-    element: <Login />
+    path: "login",
+    element: <Login />,
   },
   {
-    path: 'register',
-    element: <Registration />
+    path: "register",
+    element: <Registration />,
   },
   {
-    path: 'loginSwitch',
-    element: <LoginSwitch />
-  }
-],
-);
+    path: "loginSwitch",
+    element: <LoginSwitch />,
+  },
+  {
+    path: "message",
+    element: <RegistrationMessage />,
+  },
+  {
+    path: "forgetpassword",
+    element: <ForgetPass />,
+  },
+]);
 
 export default router;

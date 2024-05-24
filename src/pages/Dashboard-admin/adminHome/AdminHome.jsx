@@ -1,61 +1,160 @@
-import React, { useState } from "react";
-
-import { IoBagOutline } from "react-icons/io5";
-import { BsCart3 } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
 import { FaSortAmountDown } from "react-icons/fa";
 import DashboardTitle from "../../../components/deshboardTitle/DashboardTitle";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useRoleAndBranch from "../../../hooks/useRoleAndBranch";
+import useAuth from "../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { useBranch } from "../../../components/BranchContext/BranchContext";
 
-const selectCategory = {
-  category: {
-    name: "Select Category",
-    options: [
-      {
-        id: 1,
-        label: "Option 1",
-      },
-      {
-        id: 2,
-        label: "Option 2",
-      },
-      {
-        id: 3,
-        label: "Option 3",
-      },
-    ],
-  },
-};
+const status = "approved";
 
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
+  const [defaultTab, setDefaultTab] = useState(0);
+  const { selectedBranch, updateBranch } = useBranch();
+  const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
+  const [fetchedData, setFetchedData] = useState();
   const [selectedData, setSelectedData] = useState();
-  const handleCategory = async (category, index) => {
-    // setDefaultTab(index);
-    setFilter(category);
-    const categoryName = category.toLowerCase();
-    console.log(categoryName);
+  const [role, branch] = useRoleAndBranch();
+  console.log(role);
 
-    // await axiosPublic.get(`/soldItems/${categoryName}`)
-    //     .then((res) => {
-    //         setSelectedData(res.data);
-    //     });
+  useEffect(() => {
+    if (role === "Admin") {
+      updateBranch(branch);
+    }
+  }, []);
+
+
+  const { data: categories = [], refetch: refetchCategory } = useQuery({
+    queryKey: ["categoryData"],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get("/category");
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        throw error;
+      }
+    },
+  });
+
+
+  const {
+    data: productState = [],
+    refetch: refetchProductState,
+    isLoading: isLoadingProductState,
+  } = useQuery({
+    queryKey: ["productState", role, branch],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get(
+          `/products/1/state?role=${role}&branch=${selectedBranch}&email=${user?.email}`
+        );
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching Product Statistics:", error);
+        throw error;
+      }
+    },
+  });
+
+  const {
+    data: soldProductState = [],
+    refetch: refetchSoldProductState,
+    isLoading: isLoadingSoldProductState,
+  } = useQuery({
+    queryKey: ["soldProductState", role, branch],
+    queryFn: async () => {
+      try {
+        const res = await axiosPublic.get(
+          `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
+        );
+        setFetchedData(res.data?.items);
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching Sold Product Statistics:", error);
+        throw error;
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (selectedBranch) {
+      refetchCategory();
+      refetchSoldProductState();
+      refetchProductState();
+    }
+  }, [
+    selectedBranch,
+    refetchCategory,
+    refetchSoldProductState,
+    refetchProductState,
+  ]);
+
+  useEffect(() => {
+    if (categories?.items?.length > 0) {
+      handleCategory(categories?.items[defaultTab]?.category, defaultTab);
+    }
+  }, [categories?.items]);
+
+
+  const handleCategory = async (categoryName, index) => {
+    setDefaultTab(index);
+    setFilter(categoryName);
+    const category = categoryName?.toLowerCase();
+    // console.log(filter, categoryName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+    }
   };
-  console.log(selectCategory);
+  console.log(selectedData)
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
-    // const res = await axiosPublic.get(
-    //   `/soldItems/1/filter?categoryName=${categoryName}&filterName=${filterName}`
-    // );
-    setSelectedData(res.data);
+    // console.log(category, filterName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
   };
-  const handleOrderFilter = async (filterName) => {
-    // const res = await axiosPublic.get(
-    //   `/orderProduct/1/filter?filterName=${filterName}`
-    // );
-    setOrderProducts(res.data);
-  };
+
+
+  const totalSoldProductAmount = soldProductState?.items?.reduce(
+    (total, product) => total + (product?.price * product?.quantity),
+    0
+  );
+
+  const totalSoldProductItem = soldProductState?.items?.reduce(
+    (total, product) => product?.quantity + total,
+    0
+  );
+
+  const totalSellByCategory = selectedData?.reduce(
+    (total, product) => product?.price + total,
+    0
+  ) || 0;
+
+  // if (isLoadingProductState || isLoadingSoldProductState) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <span className="loading loading-dots loading-lg "></span>
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div className="lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0 rounded-lg bg-white">
-      <div className="2xl:h-[80vh] lg:h-[85vh] md:h-[82vh] h-[80vh]">
+    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
+      <div className="2xl:h-[80vh] lg:h-[83vh] md:h-[82vh] h-[80vh]">
         <DashboardTitle
           title="Welcome to professional dashboard"
           descrition="Insights, management tools and ad creation - all in one place"
@@ -65,44 +164,50 @@ const AdminHome = () => {
             <h1 className="font-bold py-3 text-lg">Total Summary</h1>
           </div>
           <div>
-            <div className="grid grid-cols-3 gap-2 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 text-white">
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Product</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1 className="text-3xl">{productState?.totalProducts}</h1>
                 </div>
               </div>
               <div className="rounded-md bg-[#4A518E]">
                 <div className="p-5">
-                  <h1>Total Amount (BDT)</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1>Total Sell (BDT)</h1>
+                  <h1 className="text-3xl">{totalSoldProductAmount}</h1>
+                </div>
+              </div>
+              <div className="rounded-md bg-[#4A518E]">
+                <div className="p-5">
+                  <h1>Total Purchase (BDT)</h1>
+                  <h1 className="text-3xl">
+                    {productState?.totalPurchaseAmount}
+                  </h1>
                 </div>
               </div>
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">1500</h1>
+                  <h1 className="text-3xl">{categories?.totalCount}</h1>
                 </div>
               </div>
             </div>
           </div>
           <div>
             <div>
-              <div className="flex flex-col mt-2 2xl:h-[44vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg">
-                <div className="font-bold pb-3 flex   justify-between items-center">
+              <div className=" mt-4 4xl:h-[44vh] 3xl:h-[39vh] 2xl:h-[36.5vh] xl:h-[55vh] lg:h-96 md:h-[70vh] bg-white rounded-lg ">
+                <div className="font-bold flex flex-row  justify-between items-center lg:mx-7 mx-3 py-4">
                   <div>
                     <select
-                      className="bg-white px-4 py-2 rounded-md border-2"
+                      className="bg-[#ebedfe] px-4 py-2 rounded"
                       onChange={(e) => handleCategory(e.target.value)}
                       value={filter}
                     >
-                      {selectCategory?.category?.options?.map(
-                        (category, index) => (
-                          <option value={category?.category} key={category._id}>
-                            {category?.category}
-                          </option>
-                        )
-                      )}
+                      {categories?.items?.map((category, index) => (
+                        <option value={category?.category} key={category._id}>
+                          {category?.category}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="flex flex-row items-center">
@@ -112,7 +217,7 @@ const AdminHome = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 -ml-16"
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 -ml-10"
                       >
                         <li>
                           <button
@@ -158,34 +263,30 @@ const AdminHome = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center items-center lg:w-4/6 w-5/6 4xl:my-10 3xl:my-5 md:my-0 my-5 mx-auto">
+                <div className="flex justify-center items-center mx-auto lg:w-4/6 w-[95%] 4xl:my-20 3xl:my-12 2xl:my-10 xl:my-14 md:my-20 my-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 px-1 md:px-0 gap-2 md:gap-5 w-full content-center">
-                    <div className="w-full shadow-md rounded-md flex flex-col gap-2 md:px-4 md:py-5 px-4 py-5 bg-white">
+                    <div className="w-full shadow-md rounded-md text-white flex flex-col gap-2 md:px-8 md:py-5 px-4 py-5 bg-[#4A518E]">
                       <div className="rounded-lg flex items-center gap-1">
-                        <div className="rounded-lg text-black text-base ">
-                          <IoBagOutline className="font-semibold" />
-                        </div>
-                        <h3 className="text-base font-semibold ">
-                          Total Sales
+                        <h3 className="text-base  ">
+                          Total Sales Amount (BDT)
                         </h3>
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          1000 BDT
+                          {totalSoldProductAmount}
                         </h2>
                       </div>
                     </div>
-                    <div className="w-full shadow-md rounded-md flex flex-col gap-2  md:p-5 px-4 py-5 bg-white">
+                    <div className="w-full shadow-md rounded-md flex flex-col gap-2  md:p-5 px-4 py-5 bg-[#4A518E] text-white">
                       <div className="rounded-lg flex items-center gap-1">
-                        <div className="rounded-lg text-black text-base ">
-                          <BsCart3 className="font-semibold" />
-                        </div>
-                        <h3 className="text-sm md:text-base font-semibold ">
-                          Total Orders
+                        <h3 className="text-sm md:text-base">
+                          Total Sales Item
                         </h3>
                       </div>
                       <div>
-                        <h2 className="text-xl md:text-2xl font-bold ">1000</h2>
+                        <h2 className="text-xl md:text-2xl font-bold ">
+                          {totalSoldProductItem}
+                        </h2>
                       </div>
                     </div>
                   </div>
