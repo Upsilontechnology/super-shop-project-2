@@ -41,6 +41,12 @@ const Login = () => {
       });
     } catch (error) {
       setError(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Plz try Again!",
+        // footer: '<a href="#">Why do I have this issue?</a>',
+      });
     }
   };
 

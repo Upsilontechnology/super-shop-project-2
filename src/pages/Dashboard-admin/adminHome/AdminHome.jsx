@@ -16,7 +16,7 @@ const AdminHome = () => {
   const { user } = useAuth();
   const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
-
+  const [selecetedCategory, setSelectedCategory] = useState();
   useEffect(() => {
     if (role === "Admin") {
       updateBranch(branch);
@@ -24,16 +24,18 @@ const AdminHome = () => {
   }, []);
   const handleCategory = async (categoryName) => {
     const category = categoryName.toLowerCase();
+    setSelectedCategory(category);
     try {
-      const res = await axiosPublic.get(
-        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
-      );
+      const url = `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`;
+      const res = await axiosPublic.get(url);
+      // console.log(url);
       setSelectedData(res.data);
     } catch (error) {
       console.error("Error fetching products by category:", error);
     }
+    console.log(category, selectedData);
   };
-
+  console.log(selecetedCategory);
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
     queryFn: async () => {
@@ -47,16 +49,16 @@ const AdminHome = () => {
     },
   });
 
-  const handleFilter = async (category, filterName) => {
-    try {
-      const res = await axiosPublic.get(
-        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}`
-      );
-      setSelectedData(res.data);
-    } catch (error) {
-      console.error("Error fetching filtered products:", error);
-    }
-  };
+  // const handleFilter = async (filterName) => {
+  //   console.log(filterName);
+  //   try {
+  //     const url = `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${selecetedCategory}`;
+  //     const res = await axiosPublic.get(url);
+  //     setSelectedData(res.data);
+  //   } catch (error) {
+  //     console.error("Error fetching filtered products:", error);
+  //   }
+  // };
 
   const {
     data: productState = [],
@@ -124,14 +126,6 @@ const AdminHome = () => {
     (total, product) => product?.price + total,
     0
   );
-
-  // if (isLoadingProductState || isLoadingSoldProductState) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <span className="loading loading-dots loading-lg "></span>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
@@ -202,7 +196,7 @@ const AdminHome = () => {
                       >
                         <li>
                           <button
-                            onClick={() => handleFilter(filter, "all")}
+                            onClick={() => handleFilter("all")}
                             className=""
                           >
                             All
@@ -210,7 +204,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter(filter, "daily")}
+                            onClick={() => handleFilter("daily")}
                             className=""
                           >
                             Today
@@ -218,7 +212,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter(filter, "weekly")}
+                            onClick={() => handleFilter("weekly")}
                             className=""
                           >
                             Weekly
@@ -226,7 +220,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter(filter, "monthly")}
+                            onClick={() => handleFilter("monthly")}
                             className=""
                           >
                             Monthly
@@ -234,7 +228,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter(filter, "yearly")}
+                            onClick={() => handleFilter("yearly")}
                             className=""
                           >
                             Yearly
