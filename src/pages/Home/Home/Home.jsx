@@ -5,6 +5,7 @@ import useAdmin from "../../../hooks/useAdmin";
 import useEmployee from "../../../hooks/useEmployee";
 import LoginSwitch from "../../loginSwitch/LoginSwitch";
 import { BranchProvider } from "../../../components/BranchContext/BranchContext";
+import Login from "../../login/Login";
 
 const Home = () => {
   const [isEmployee, isEmployeeLoading] = useEmployee();
@@ -55,7 +56,8 @@ const Home = () => {
           />
         </BranchProvider>
       ) : (
-        <LoginSwitch />
+        // <LoginSwitch />
+        <Login />
       )}
     </div>
   );

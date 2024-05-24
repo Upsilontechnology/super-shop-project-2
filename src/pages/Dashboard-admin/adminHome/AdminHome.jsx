@@ -18,6 +18,7 @@ const AdminHome = () => {
   const [fetchedData, setFetchedData] = useState();
   const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
+  console.log(role);
 
   useEffect(() => {
     if (role === "Admin") {
@@ -93,7 +94,7 @@ const AdminHome = () => {
   ]);
 
   useEffect(() => {
-    if (categories?.items.length > 0) {
+    if (categories?.items?.length > 0) {
       handleCategory(categories?.items[defaultTab]?.category, defaultTab);
     }
   }, [categories?.items]);
@@ -129,9 +130,9 @@ const AdminHome = () => {
 
 
   const totalSoldProductAmount = soldProductState?.items?.reduce(
-    (total, product) => product?.price + total,
+    (total, product) => total + (product?.price * product?.quantity),
     0
-  ) || 0;
+  );
 
   const totalSoldProductItem = soldProductState?.items?.reduce(
     (total, product) => product?.quantity + total,
@@ -187,7 +188,7 @@ const AdminHome = () => {
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">{productState?.allCategories}</h1>
+                  <h1 className="text-3xl">{categories?.totalCount}</h1>
                 </div>
               </div>
             </div>
@@ -272,7 +273,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSellByCategory}
+                          {totalSoldProductAmount}
                         </h2>
                       </div>
                     </div>
@@ -284,7 +285,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {selectedData?.length || 0}
+                          {totalSoldProductItem}
                         </h2>
                       </div>
                     </div>

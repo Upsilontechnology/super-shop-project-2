@@ -4,7 +4,7 @@ import auth from "../firebase/firebase.config";
 
 const instance = axios.create({
   //   baseURL: "",
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://super-shop-server-2.vercel.app/api",
   withCredentials: true,
 });
 

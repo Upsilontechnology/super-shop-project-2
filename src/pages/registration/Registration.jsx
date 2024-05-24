@@ -128,7 +128,7 @@ const Registration = () => {
               <h4 className="flex gap-2  ">
                 Already have an account?{" "}
                 <Link
-                  to={"/login"}
+                  to={"/"}
                   className="text-[#6486FD] font-bold cursor-pointer"
                 >
                   Log In
