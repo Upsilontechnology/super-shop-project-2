@@ -101,7 +101,7 @@ const SellList = () => {
   };
 
   return (
-    <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] lg:h-[83vh] mx-3 lg:mx-0 rounded-lg bg-white">
+    <div className="bg-white overflow-scroll 2xl:h-[80vh] lg:h-[85vh] md:h-[80vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
       {/* <div className="p-5 flex justify-between">
         <SectionTitle title={"Temporary Sell List"} />
         <div>
@@ -177,12 +177,12 @@ const SellList = () => {
         </div>
       ) : (
         <>
-          <div className="bg-white md:h-auto overflow-scroll 2xl:h-[80vh] xl:h-[80vh] lg:h-[100vh] h-[81vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
+          <div className="bg-white md:h-auto overflow-scroll 2xl:h-[80vh] lg:h-[85vh] h-[77vh] lg:ml-10 rounded-md mx-3 lg:mx-0">
             <div className="flex flex-col justify-center h-full items-center">
               <div className="flex justify-center items-center mt-4">
                 <img
-                  className="w-[50%]"
-                  src="https://i.ibb.co/MC9sqSm/doctor-Profile-20.jpg"
+                  className="w-[40%]"
+                  src="https://i.ibb.co/rZjjQn3/Rectangle-1590.png"
                   alt=""
                 />
               </div>

@@ -5,12 +5,16 @@ import useAdmin from "../../../hooks/useAdmin";
 import useEmployee from "../../../hooks/useEmployee";
 import LoginSwitch from "../../loginSwitch/LoginSwitch";
 import { BranchProvider } from "../../../components/BranchContext/BranchContext";
+import Login from "../../login/Login";
+import useAuth from "../../../hooks/useAuth";
 
 const Home = () => {
   const [isEmployee, isEmployeeLoading] = useEmployee();
   const [isAdmin, isAdminLoading] = useAdmin();
-  // console.log(isAdmin);
-  // console.log(isEmployee);
+  const { user } = useAuth();
+  console.log(user);
+  console.log(isAdmin);
+  console.log(isEmployee);
 
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const toggleSideMenu = () => {
@@ -55,7 +59,8 @@ const Home = () => {
           />
         </BranchProvider>
       ) : (
-        <LoginSwitch />
+        // <LoginSwitch />
+        <Login />
       )}
     </div>
   );

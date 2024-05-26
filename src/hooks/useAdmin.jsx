@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const useAdmin = () => {
   const axios = useAxiosPrivate();
   const { user, loading } = useAuth();
+  console.log(user);
   const {
     data: isAdmin,
     isPending: isAdminLoading,

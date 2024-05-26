@@ -44,6 +44,7 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
             timer: 1500,
           });
           navigate("/");
+          console.log("Logged out successfully");
         });
       }
     });

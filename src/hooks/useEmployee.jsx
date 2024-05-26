@@ -5,6 +5,7 @@ import useAuth from "./useAuth";
 const useEmployee = () => {
   const axios = useAxiosPrivate();
   const { user, loading } = useAuth();
+  console.log(user);
   const {
     data: isEmployee,
     isPending: isEmployeeLoading,

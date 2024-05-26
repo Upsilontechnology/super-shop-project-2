@@ -11,31 +11,22 @@ const status = "approved";
 
 const AdminHome = () => {
   const [filter, setFilter] = useState(null);
+  const [defaultTab, setDefaultTab] = useState(0);
   const { selectedBranch, updateBranch } = useBranch();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
+  const [fetchedData, setFetchedData] = useState();
   const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
-  const [selecetedCategory, setSelectedCategory] = useState();
+  // console.log(role);
+
   useEffect(() => {
     if (role === "Admin") {
+      console.log("Admin home");
       updateBranch(branch);
     }
   }, []);
-  const handleCategory = async (categoryName) => {
-    const category = categoryName.toLowerCase();
-    setSelectedCategory(category);
-    try {
-      const url = `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`;
-      const res = await axiosPublic.get(url);
-      // console.log(url);
-      setSelectedData(res.data);
-    } catch (error) {
-      console.error("Error fetching products by category:", error);
-    }
-    console.log(category, selectedData);
-  };
-  console.log(selecetedCategory);
+
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
     queryFn: async () => {
@@ -48,17 +39,6 @@ const AdminHome = () => {
       }
     },
   });
-
-  // const handleFilter = async (filterName) => {
-  //   console.log(filterName);
-  //   try {
-  //     const url = `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${selecetedCategory}`;
-  //     const res = await axiosPublic.get(url);
-  //     setSelectedData(res.data);
-  //   } catch (error) {
-  //     console.error("Error fetching filtered products:", error);
-  //   }
-  // };
 
   const {
     data: productState = [],
@@ -90,7 +70,7 @@ const AdminHome = () => {
         const res = await axiosPublic.get(
           `/sellProducts?role=${role}&branch=${selectedBranch}&email=${user?.email}&status=${status}`
         );
-        setSelectedData(res.data?.items);
+        setFetchedData(res.data?.items);
         return res.data;
       } catch (error) {
         console.error("Error fetching Sold Product Statistics:", error);
@@ -112,8 +92,42 @@ const AdminHome = () => {
     refetchProductState,
   ]);
 
+  useEffect(() => {
+    if (categories?.items?.length > 0) {
+      handleCategory(categories?.items[defaultTab]?.category, defaultTab);
+    }
+  }, [categories?.items]);
+
+  const handleCategory = async (categoryName, index) => {
+    setDefaultTab(index);
+    setFilter(categoryName);
+    const category = categoryName?.toLowerCase();
+    // console.log(filter, categoryName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+    }
+  };
+  console.log(selectedData);
+  const handleFilter = async (category, filterName) => {
+    const categoryName = category.toLowerCase();
+    // console.log(category, filterName)
+    try {
+      const res = await axiosPublic.get(
+        `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
+      );
+      setSelectedData(res.data);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
   const totalSoldProductAmount = soldProductState?.items?.reduce(
-    (total, product) => product?.price + total,
+    (total, product) => total + product?.price * product?.quantity,
     0
   );
 
@@ -122,10 +136,8 @@ const AdminHome = () => {
     0
   );
 
-  const totalSellByCategory = selectedData?.reduce(
-    (total, product) => product?.price + total,
-    0
-  );
+  const totalSellByCategory =
+    selectedData?.reduce((total, product) => product?.price + total, 0) || 0;
 
   return (
     <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
@@ -163,7 +175,7 @@ const AdminHome = () => {
               <div className="rounded-md bg-mainBG">
                 <div className="p-5">
                   <h1>Total Category</h1>
-                  <h1 className="text-3xl">{productState?.allCategories}</h1>
+                  <h1 className="text-3xl">{categories?.totalCount}</h1>
                 </div>
               </div>
             </div>
@@ -248,7 +260,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSellByCategory}
+                          {totalSoldProductAmount}
                         </h2>
                       </div>
                     </div>
@@ -260,7 +272,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {selectedData?.length}
+                          {totalSoldProductItem}
                         </h2>
                       </div>
                     </div>
