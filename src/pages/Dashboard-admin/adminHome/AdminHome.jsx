@@ -22,7 +22,7 @@ const AdminHome = () => {
 
   useEffect(() => {
     if (role === "Admin") {
-      console.log("Admin home");
+      // console.log("Admin home");
       updateBranch(branch);
     }
   }, []);
@@ -112,7 +112,7 @@ const AdminHome = () => {
       console.error("Error fetching products by category:", error);
     }
   };
-  console.log(selectedData);
+  // console.log(selectedData);
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
     // console.log(category, filterName)

@@ -11,7 +11,7 @@ import AllEmployeeRow from "./AllEmployeeRow";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import ApprovedEmployee from "../approveEmployee/ApprovedEmployee";
-import "./allEmployee.css"
+import "./allEmployee.css";
 
 const AllEmployee = () => {
   const axiosPublic = useAxiosPublic();
@@ -132,7 +132,7 @@ const AllEmployee = () => {
                           {/* row 1 */}
                           {users?.items?.map((user, index) => (
                             <AllEmployeeRow
-                              key={users._id}
+                              key={user._id || index}
                               users={user}
                               index={index}
                               onEdit={handleEditModal}
@@ -163,7 +163,7 @@ const AllEmployee = () => {
                           {/* row 1 */}
                           {users?.items?.map((user, index) => (
                             <ApprovedEmployee
-                              key={users._id}
+                              key={user._id || index}
                               users={user}
                               index={index}
                               onEdit={handleEditModal}

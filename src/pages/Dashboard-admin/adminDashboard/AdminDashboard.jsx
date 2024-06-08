@@ -13,13 +13,13 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
-const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
-  const { user: activeUser, loading } = useAuth();
+const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu, closeSideMenu }) => {
+  const { user: activeUser, loading, logOut } = useAuth();
   const [user, refetch] = useUser();
   const axios = useAxiosPrivate();
   const { selectedBranch: fistB, updateBranch: secB } = useBranch();
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
-  console.log(selectedBranch);
+  // console.log(selectedBranch);
   const handleChangeBranch = async (e) => {
     e.preventDefault();
     const newBranch = e.target.value;
@@ -53,6 +53,31 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       console.error("Error updating branch:", error);
       Swal.fire("Error", "Network error or unexpected issue.", "error");
     }
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logged Out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut().then(() => {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successfully logged out",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        });
+      }
+    });
   };
 
   const navlinks = (
@@ -144,7 +169,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           {/* logo */}
           <div className="flex justify-between w-full items-center mx-auto mt-2">
             <div>
-              <h1 className="font-bold text-2xl">Sper Shop</h1>
+              <h1 className="font-bold text-2xl">Super Shop</h1>
             </div>
             <div>
               <button
@@ -172,7 +197,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
               className="p-1 border-2 rounded-md bg-mainBG text-white"
               value={selectedBranch}
             >
-              <option value={""}>{user?.branch} Branch</option>
+              <option value={user?.branch || ""}>{user?.branch} Branch</option>
               {branchesData.map((branch) => (
                 <option key={branch.id} value={branch.name}>
                   {branch.name}
@@ -182,7 +207,9 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
           </div>
           {/* items and routes */}
           <div className=" flex flex-col justify-center h-svh">
-            <ul className="leading-10">{navlinks}</ul>
+            <ul className="leading-10" onClick={() => closeSideMenu()}>
+              {navlinks}
+            </ul>
           </div>
         </div>
       </aside>
@@ -203,6 +230,12 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
                 <FaBarsStaggered className="w-6 h-6" />
               )} */}
             </button>
+            <div className="flex lg:hidden justify-end mr-4 w-full">
+              <button onClick={handleLogout} className="btn btn-sm">
+                {/* <IoPersonOutline className="text-xl" /> */}
+                Log Out
+              </button>
+            </div>
           </div>
         </header>
         <main className="scroll-smooth">

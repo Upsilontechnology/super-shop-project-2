@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import EmployeeDashboard from "../../Dashboard-employee/employeeDashboard/EmployeeDashboard";
 import AdminDashboard from "../../Dashboard-admin/adminDashboard/AdminDashboard";
 import useAdmin from "../../../hooks/useAdmin";
 import useEmployee from "../../../hooks/useEmployee";
-// import LoginSwitch from "../../loginSwitch/LoginSwitch";
 import { BranchProvider } from "../../../components/BranchContext/BranchContext";
 import Login from "../../login/Login";
 import useAuth from "../../../hooks/useAuth";
@@ -12,47 +11,61 @@ const Home = () => {
   const [isEmployee, isEmployeeLoading] = useEmployee();
   const [isAdmin, isAdminLoading] = useAdmin();
   const { user } = useAuth();
-  // console.log(user);
-  // console.log(isAdmin);
-  // console.log(isEmployee);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const toggleSideMenu = () => {
-    setIsSideMenuOpen(!isSideMenuOpen);
-  };
-  const closeSideMenu = () => {
-    setIsSideMenuOpen(false);
-  };
+  const [error, setError] = useState(null);
 
-  if (isAdminLoading) {
+  const toggleSideMenu = useCallback(() => {
+    setIsSideMenuOpen((prevState) => !prevState);
+  }, []);
+
+  const closeSideMenu = useCallback(() => {
+    setIsSideMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg "></span>
+        <span className="loading loading-dots loading-lg"></span>
       </div>
     );
   }
 
-  if (isEmployeeLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg "></span>
-      </div>
-    );
+  if (error) {
+    return <div>Error loading data: {error.message}</div>;
+  }
+
+  if (!user) {
+    return <Login />;
   }
 
   return (
     <div>
-      {isEmployee ? (
+      {isAdmin ? (
         <BranchProvider>
-          <EmployeeDashboard
+          <AdminDashboard
             isSideMenuOpen={isSideMenuOpen}
             toggleSideMenu={toggleSideMenu}
             closeSideMenu={closeSideMenu}
           />
         </BranchProvider>
-      ) : isAdmin ? (
+      ) : isEmployee ? (
         <BranchProvider>
-          <AdminDashboard
+          <EmployeeDashboard
             isSideMenuOpen={isSideMenuOpen}
             toggleSideMenu={toggleSideMenu}
             closeSideMenu={closeSideMenu}

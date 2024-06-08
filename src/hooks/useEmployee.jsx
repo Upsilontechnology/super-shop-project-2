@@ -5,16 +5,16 @@ import useAuth from "./useAuth";
 const useEmployee = () => {
   const axios = useAxiosPrivate();
   const { user, loading } = useAuth();
-  console.log(user);
+
   const {
-    data: isEmployee,
-    isPending: isEmployeeLoading,
+    data: isEmployee = false, // Default to `false` if `data` is `undefined`
+    isLoading: isEmployeeLoading, // Corrected naming for consistency
     error: isEmployeeError,
   } = useQuery({
     queryKey: [user?.email, "isEmployee"],
-    enabled: !loading,
+    enabled: !!user?.email && !loading, // Ensure `enabled` is false if `user.email` is not available
     queryFn: async () => {
-      if (!user?.email) return;
+      if (!user?.email) return false; // Return a default value instead of `undefined`
 
       try {
         const res = await axios.get(`/users/employee/${user?.email}`);

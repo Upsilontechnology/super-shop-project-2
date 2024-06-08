@@ -8,9 +8,11 @@ const LoginSwitch = () => {
         <div className=" flex flex-col w-full 4xl:py-20 py-10 md:w-[768px] ">
           <div className="bg-[#ebedfe] rounded-lg  py-[10%] px-[5%]  md:px-[15%]">
             <div className="flex gap-4 flex-col md:flex-row mt-8">
-              <button className="text-xl rounded-md font-semibold  py-4 bg-[#757ec9] text-white hover:bg-[#565fa8] w-full">
-                <Link to="/login">Log In as Admin</Link>
-              </button>
+              <Link to="/login">
+                <button className="text-xl rounded-md font-semibold  py-4 bg-[#757ec9] text-white hover:bg-[#565fa8] w-full">
+                  Log In as Admin
+                </button>
+              </Link>
               <button className="text-xl rounded-md font-semibold  py-4 bg-[#959ff0] text-white hover:bg-[#565fa8] w-full">
                 <Link to="/login">Log In as Employee</Link>
               </button>
