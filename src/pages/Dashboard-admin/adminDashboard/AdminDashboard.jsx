@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
 import Header from "../../../components/shared/header/Header";
@@ -14,12 +14,13 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
 const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
-  const { user: activeUser, loading } = useAuth();
+  const { user: activeUser, loading, logOut } = useAuth();
   const [user, refetch] = useUser();
   const axios = useAxiosPrivate();
+  const navigate = useNavigate();
   const { selectedBranch: fistB, updateBranch: secB } = useBranch();
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
-  console.log(selectedBranch);
+
   const handleChangeBranch = async (e) => {
     e.preventDefault();
     const newBranch = e.target.value;
@@ -99,11 +100,36 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       </li>
     </>
   );
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logged Out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut().then(() => {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successfully logged out",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        });
+      }
+    });
+  };
+
   return (
     <div
-      className={`flex h-screen bg-white ${
-        isSideMenuOpen ? "overflow-hidden" : ""
-      }`}
+      className={`flex h-screen bg-white ${isSideMenuOpen ? "overflow-hidden" : ""
+        }`}
     >
       {/* Dashboard */}
       <aside className="z-20 flex-shrink-0 fixed hidden w-[285px] overflow-y-auto bg-white lg:block lg:mt-20 4xl:ml-[12%] 3xl:ml-[11%] 2xl:ml-[13%] xl:ml-5 lg:ml-3 rounded-lg">
@@ -136,15 +162,14 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       <div className="fixed inset-0 -z-10 flex items-end bg-slate-300 bg-opacity-50 sm:items-center sm:justify-center"></div>
       {/* responsive dashboard */}
       <aside
-        className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${
-          isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:hidden`}
+        className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:hidden`}
       >
         <div className="h-screen py-3 pl-3 flex flex-col shadow-xl">
           {/* logo */}
           <div className="flex justify-between w-full items-center mx-auto mt-2">
             <div>
-              <h1 className="font-bold text-2xl">Sper Shop</h1>
+              <h1 className="font-bold text-2xl">Super Shop</h1>
             </div>
             <div>
               <button
@@ -188,9 +213,9 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       </aside>
       {/* components */}
       <div className="flex flex-col flex-1 w-full bg-secBG overflow-y-auto ">
-        <header className="py-5 bg-slate-50 fixed w-full top-0 lg:hidden">
+        <header className="py-5 bg-slate-50 fixed flex justify-between px-5 w-full top-0 lg:hidden">
           {/* toggle button */}
-          <div className="flex items-center justify-between h-8 px-6 mx-auto">
+          <div className="">
             <button
               className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
               onClick={toggleSideMenu}
@@ -203,6 +228,18 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
                 <FaBarsStaggered className="w-6 h-6" />
               )} */}
             </button>
+          </div>
+          {/* logout button */}
+          <div className="">
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="bg-mainBG text-base text-white font-semibold px-2 py-1 rounded"
+              >
+                {" "}
+                Logout
+              </button>
+            )}
           </div>
         </header>
         <main className="scroll-smooth">

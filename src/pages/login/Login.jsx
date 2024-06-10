@@ -215,7 +215,7 @@ const Login = () => {
                   required
                 />
                 <span
-                  className="absolute right-0 cursor-pointer mr-5 mt-5"
+                  className="absolute right-0 cursor-pointer mr-5"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (

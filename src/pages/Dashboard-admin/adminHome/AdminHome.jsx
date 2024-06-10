@@ -102,7 +102,7 @@ const AdminHome = () => {
     setDefaultTab(index);
     setFilter(categoryName);
     const category = categoryName?.toLowerCase();
-    // console.log(filter, categoryName)
+    console.log(filter,categoryName)
     try {
       const res = await axiosPublic.get(
         `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
@@ -112,7 +112,7 @@ const AdminHome = () => {
       console.error("Error fetching products by category:", error);
     }
   };
-  console.log(selectedData);
+  // console.log(selectedData);
   const handleFilter = async (category, filterName) => {
     const categoryName = category.toLowerCase();
     // console.log(category, filterName)
