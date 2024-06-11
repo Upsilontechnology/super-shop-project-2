@@ -5,38 +5,33 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { getToken } from "../../components/AuthProvider/AuthApi";
 import useRole from "../../hooks/useRole";
-import AdminHome from "../Dashboard-admin/adminHome/AdminHome";
-import EmployeeHome from "../Dashboard-employee/employeehome/EmployeeHome";
 
 const Login = () => {
   const { signInUser } = useAuth();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState(null); // Properly initialize role state
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (role === "Employee") {
-      navigate("/employeeHome");
-    } else if (role === "Admin") {
-      navigate("/adminHome");
-    } else if (role !== null) {
-      navigate("/message");
-    }
-  }, [role, navigate]);
-  console.log(role);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value.toLowerCase();
-    const password = form.password.value;
-
     setError("");
+    setLoading(true);
+
     try {
       const userCheck = await signInUser(email, password);
-      await getToken(userCheck?.user?.email);
-      const userRole = await useRole(userCheck?.user?.email); // Assuming useRole is async
-      setRole(userRole);
+      if (!userCheck?.user?.email) {
+        throw new Error("User email not found");
+      }
+
+      const userEmail = userCheck.user.email;
+      await getToken(userEmail);
+      const userRole = await useRole(userEmail);
+      navigate(userRole === "Admin" ? "/adminHome" : "/employeeHome");
+
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -46,6 +41,8 @@ const Login = () => {
       });
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,30 +52,32 @@ const Login = () => {
         <h1 className="text-[46px] font-bold mt-0">Log In</h1>
       </div>
       <div className="flex md:bg-white bg-[#F3F3F3] items-center justify-center h-full 4xl:py-20 py-10 rounded-lg">
-        <div className=" flex flex-col w-full md:w-[768px] ">
+        <div className="flex flex-col w-full md:w-[768px]">
           <div className="bg-[#ebedfe] rounded-lg py-[10%] px-[5%] md:px-[15%]">
-            <form onSubmit={handleLogin} className="">
+            <form onSubmit={handleLogin}>
               <div className="form-control mb-4 flex justify-center">
-                <div className="absolute pl-2"></div>
                 <input
                   type="email"
                   name="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-[#ebedfe] border-1.5 border-[#6f98b9] placeholder-[#444444] py-4 rounded-lg border outline-none pl-8 pr-2"
                   required
                 />
               </div>
               <div className="form-control relative flex justify-center">
-                <div className="absolute pl-2"></div>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
-                  className="w-full border-1.5 border-[#6f98b9] bg-[#ebedfe] placeholder-[#444444] py-4 rounded-lg border outline-none pl-8 pr-2 "
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border-1.5 border-[#6f98b9] bg-[#ebedfe] placeholder-[#444444] py-4 rounded-lg border outline-none pl-8 pr-2"
                   required
                 />
                 <span
-                  className="absolute right-0 cursor-pointer mr-5 mt-5"
+                  className="absolute right-0 cursor-pointer mr-5"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -88,24 +87,13 @@ const Login = () => {
                   )}
                 </span>
               </div>
-              <div>{error ? <p className="text-red-600">{error}</p> : ""}</div>
-              <div className="flex items-center mt-5">
-                <input
-                  type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  className="cursor-pointer bg-[#565fa8] mr-3"
-                />
-                <label
-                  htmlFor="checkbox"
-                  className="font-normal text-lg text-[#444444] ml-1 cursor-pointer"
-                >
-                  Remember Me
-                </label>
-              </div>
+              {error && <p className="text-red-600">{error}</p>}
               <div className="form-control mt-8">
-                <button className="text-xl rounded-md font-semibold py-4 bg-[#565fa8] text-white hover:bg-[#565fa8] w-full">
-                  Log In
+                <button
+                  className="text-xl rounded-md font-semibold py-4 bg-[#565fa8] text-white hover:bg-[#565fa8] w-full"
+                  disabled={loading}
+                >
+                  {loading ? "Logging in..." : "Log In"}
                 </button>
               </div>
               <div className="mt-16 text-center">
@@ -116,7 +104,7 @@ const Login = () => {
                   </Link>
                 </p>
                 <p className="mt-1">
-                  Are you Forgot the Password?{" "}
+                  Forgot the Password?{" "}
                   <Link
                     className="font-semibold text-[#6486FD]"
                     to="/forgetpassword"

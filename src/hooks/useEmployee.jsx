@@ -1,36 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPrivate from "./useAxiosPrivate";
+import { useState, useEffect } from "react";
 import useAuth from "./useAuth";
+import useAxiosPrivate from "./useAxiosPrivate";
 
 const useEmployee = () => {
   const axios = useAxiosPrivate();
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const [isEmployee, setIsEmployee] = useState(false);
+  const [status, setStatus] = useState({ loading: false, error: null });
 
-  const {
-    data: isEmployee = false, // Default to `false` if `data` is `undefined`
-    isLoading: isEmployeeLoading, // Corrected naming for consistency
-    error: isEmployeeError,
-  } = useQuery({
-    queryKey: [user?.email, "isEmployee"],
-    enabled: !!user?.email && !loading, // Ensure `enabled` is false if `user.email` is not available
-    queryFn: async () => {
-      if (!user?.email) return false; // Return a default value instead of `undefined`
+  useEffect(() => {
+    if (!user?.email || authLoading) return;
+
+    const fetchEmployeeStatus = async () => {
+      setStatus({ loading: true, error: null });
 
       try {
-        const res = await axios.get(`/users/employee/${user?.email}`);
-        return res?.data?.isEmployee;
+        const { data } = await axios.get(`/users/employee/${user.email}`);
+        setIsEmployee(data.isEmployee);
       } catch (error) {
-        if (error.isAxiosError) {
-          console.error("Network error:", error);
-        } else {
-          console.error("Unexpected error:", error);
-        }
-        throw error;
+        const errorMessage = error.response?.data || "Network error";
+        console.error("Error fetching employee status:", errorMessage);
+        setStatus({ loading: false, error: errorMessage });
+      } finally {
+        setStatus((prevState) => ({ ...prevState, loading: false }));
       }
-    },
-  });
+    };
 
-  return [isEmployee, isEmployeeLoading, isEmployeeError];
+    fetchEmployeeStatus();
+  }, [axios, user?.email, authLoading]);
+
+  return [isEmployee, status.loading, status.error];
 };
 
 export default useEmployee;

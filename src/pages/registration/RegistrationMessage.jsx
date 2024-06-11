@@ -11,7 +11,7 @@ const RegistrationMessage = () => {
           Waiting for the admin approval to access Employee Panel.{" "}
         </h1>
         <Link
-          to={"/loginSwitch"}
+          to={"/login"}
           className="w-full py-4 bg-[#565fa8] text-white hover:bg-[#565fa8] rounded-lg font-bold"
         >
           Log In

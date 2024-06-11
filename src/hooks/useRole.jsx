@@ -8,7 +8,7 @@ const useRole = async (email) => {
     if (!response.data) {
       throw new Error("Failed to fetch user role");
     }
-    console.log(response.data.role);
+    // console.log(response.data.role);
     return response.data.role;
   } catch (error) {
     console.error("Error fetching user role:", error);

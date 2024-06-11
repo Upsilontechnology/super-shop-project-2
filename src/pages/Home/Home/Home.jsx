@@ -49,10 +49,6 @@ const Home = () => {
     return <div>Error loading data: {error.message}</div>;
   }
 
-  if (!user) {
-    return <Login />;
-  }
-
   return (
     <div>
       {isAdmin ? (
