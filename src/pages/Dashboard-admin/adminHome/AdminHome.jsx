@@ -102,7 +102,7 @@ const AdminHome = () => {
     setDefaultTab(index);
     setFilter(categoryName);
     const category = categoryName?.toLowerCase();
-    console.log(filter,categoryName)
+    // console.log(category)
     try {
       const res = await axiosPublic.get(
         `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
@@ -113,14 +113,15 @@ const AdminHome = () => {
     }
   };
   // console.log(selectedData);
-  const handleFilter = async (category, filterName) => {
+  const handleFilter = async (filterName, category) => {
     const categoryName = category.toLowerCase();
-    // console.log(category, filterName)
+    console.log(filterName, category)
     try {
       const res = await axiosPublic.get(
         `/sellProducts/filter?role=${role}&branch=${selectedBranch}&email=${user?.email}&filterName=${filterName}&status=${status}&category=${categoryName}`
       );
       setSelectedData(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error("Error fetching filtered products:", error);
     }
@@ -136,8 +137,15 @@ const AdminHome = () => {
     0
   );
 
-  const totalSellByCategory =
-    selectedData?.reduce((total, product) => product?.price + total, 0) || 0;
+  const totalSellByCategory = selectedData?.reduce(
+    (total, product) => total + product?.price * product?.quantity,
+    0
+  );
+
+  const totalProductByCategory = selectedData?.reduce(
+    (total, product) => product?.quantity + total,
+    0
+  );
 
   return (
     <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">
@@ -208,7 +216,7 @@ const AdminHome = () => {
                       >
                         <li>
                           <button
-                            onClick={() => handleFilter("all")}
+                            onClick={() => handleFilter("all", filter)}
                             className=""
                           >
                             All
@@ -216,7 +224,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter("daily")}
+                            onClick={() => handleFilter("daily", filter)}
                             className=""
                           >
                             Today
@@ -224,7 +232,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter("weekly")}
+                            onClick={() => handleFilter("weekly", filter)}
                             className=""
                           >
                             Weekly
@@ -232,7 +240,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter("monthly")}
+                            onClick={() => handleFilter("monthly", filter)}
                             className=""
                           >
                             Monthly
@@ -240,7 +248,7 @@ const AdminHome = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => handleFilter("yearly")}
+                            onClick={() => handleFilter("yearly", filter)}
                             className=""
                           >
                             Yearly
@@ -260,7 +268,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSoldProductAmount}
+                          {totalSellByCategory}
                         </h2>
                       </div>
                     </div>
@@ -272,7 +280,7 @@ const AdminHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSoldProductItem}
+                          {totalProductByCategory}
                         </h2>
                       </div>
                     </div>
