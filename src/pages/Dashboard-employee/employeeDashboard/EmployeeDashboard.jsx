@@ -139,9 +139,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   return (
     <>
       <div
-        className={`flex h-screen bg-white ${
-          isSideMenuOpen ? "overflow-hidden" : ""
-        }`}
+        className={`flex h-screen bg-white ${isSideMenuOpen ? "overflow-hidden" : ""
+          }`}
       >
         {/* Dashboard */}
         <aside className="z-20 flex-shrink-0 fixed hidden w-[285px] overflow-y-auto bg-white lg:block lg:mt-[78px] 4xl:ml-[12%] 3xl:ml-[12%] 2xl:ml-[13%] xl:ml-5 lg:ml-3 rounded-lg">
@@ -162,9 +161,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         <div className="fixed inset-0 -z-10 flex items-end bg-slate-300 bg-opacity-50 sm:items-center sm:justify-center"></div>
         {/* responsive dashboard */}
         <aside
-          className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${
-            isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden`}
+          className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
+            } lg:hidden`}
         >
           <div className="h-screen py-3 pl-3 flex flex-col justify-between shadow-xl">
             {/* logo */}
@@ -202,8 +200,8 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
         </aside>
         {/* components */}
         <div className="flex flex-col flex-1 w-full bg-secBG overflow-y-auto ">
-          <header className="py-5 bg-mainBG fixed w-full top-0 lg:hidden">
-            {/* toggle button */}
+          {/* <header className="py-5 bg-white fixed w-full top-0 lg:hidden">
+            
             <div className="flex items-center justify-between h-8 px-6 mx-auto">
               <button
                 className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
@@ -226,6 +224,35 @@ const EmployeeDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
                   Logout
                 </button>
               </div>
+            </div>
+          </header> */}
+          <header className="py-5 bg-slate-50 fixed flex justify-between px-5 w-full top-0 lg:hidden">
+            {/* toggle button */}
+            <div className="">
+              <button
+                className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
+                onClick={toggleSideMenu}
+                aria-label="Menu"
+              >
+                {!isSideMenuOpen && <FaBarsStaggered className="w-6 h-6" />}
+                {/* {isSideMenuOpen ? (
+                <FaXmark className="w-6 h-6" />
+              ) : (
+                <FaBarsStaggered className="w-6 h-6" />
+              )} */}
+              </button>
+            </div>
+            {/* logout button */}
+            <div className="">
+              {user && (
+                <button
+                  onClick={handleLogout}
+                  className="bg-mainBG text-base text-white font-semibold px-2 py-1 rounded"
+                >
+                  {" "}
+                  Logout
+                </button>
+              )}
             </div>
           </header>
           <main className="scroll-smooth">

@@ -3,6 +3,7 @@ import EmployeeDashboard from "../../Dashboard-employee/employeeDashboard/Employ
 import AdminDashboard from "../../Dashboard-admin/adminDashboard/AdminDashboard";
 import useAdmin from "../../../hooks/useAdmin";
 import useEmployee from "../../../hooks/useEmployee";
+// import LoginSwitch from "../../loginSwitch/LoginSwitch";
 import { BranchProvider } from "../../../components/BranchContext/BranchContext";
 import Login from "../../login/Login";
 import useAuth from "../../../hooks/useAuth";

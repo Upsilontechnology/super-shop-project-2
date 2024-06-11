@@ -88,7 +88,7 @@ const EmployeeHome = () => {
   };
 
   const totalSoldProductAmount = soldProductState?.items?.reduce(
-    (total, product) => total + (product?.price * product?.quantity),
+    (total, product) => total + product?.price * product?.quantity,
     0
   );
   const totalSoldProductItem = soldProductState?.items?.reduce(
