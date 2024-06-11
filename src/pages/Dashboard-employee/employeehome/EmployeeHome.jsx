@@ -96,7 +96,11 @@ const EmployeeHome = () => {
     0
   );
   const totalSellByCategory = selectedData?.reduce(
-    (total, product) => product?.price + total,
+    (total, product) => (product?.price * product?.quantity) + total,
+    0
+  );
+  const totalProductByCategory = selectedData?.reduce(
+    (total, product) => product?.quantity + total,
     0
   );
 
@@ -229,7 +233,7 @@ const EmployeeHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSoldProductAmount}
+                          {totalSellByCategory}
                         </h2>
                       </div>
                     </div>
@@ -241,7 +245,7 @@ const EmployeeHome = () => {
                       </div>
                       <div>
                         <h2 className="text-xl md:text-2xl font-bold ">
-                          {totalSoldProductItem}
+                          {totalProductByCategory}
                         </h2>
                       </div>
                     </div>

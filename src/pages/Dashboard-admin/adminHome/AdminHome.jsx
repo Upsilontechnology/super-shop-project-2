@@ -25,7 +25,7 @@ const AdminHome = () => {
       console.log("Admin home");
       updateBranch(branch);
     }
-  }, []);
+  }, [role, branch, updateBranch]);
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -38,6 +38,7 @@ const AdminHome = () => {
         throw error;
       }
     },
+    enabled: !!selectedBranch,
   });
 
   const {
@@ -57,6 +58,7 @@ const AdminHome = () => {
         throw error;
       }
     },
+    enabled: !!selectedBranch,
   });
 
   const {
@@ -77,6 +79,7 @@ const AdminHome = () => {
         throw error;
       }
     },
+    enabled: !!selectedBranch,
   });
 
   useEffect(() => {
@@ -85,18 +88,17 @@ const AdminHome = () => {
       refetchSoldProductState();
       refetchProductState();
     }
-  }, [
-    selectedBranch,
-    refetchCategory,
-    refetchSoldProductState,
-    refetchProductState,
-  ]);
+  }, [selectedBranch, refetchCategory, refetchSoldProductState, refetchProductState,]);
 
   useEffect(() => {
     if (categories?.items?.length > 0) {
       handleCategory(categories?.items[defaultTab]?.category, defaultTab);
     }
   }, [categories?.items]);
+
+  // useEffect(() => {
+  //   setSelectedData(selectedData)
+  // },[categories?.items])
 
   const handleCategory = async (categoryName, index) => {
     setDefaultTab(index);
@@ -108,6 +110,7 @@ const AdminHome = () => {
         `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
       );
       setSelectedData(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error("Error fetching products by category:", error);
     }
@@ -138,14 +141,14 @@ const AdminHome = () => {
   );
 
   const totalSellByCategory = selectedData?.reduce(
-    (total, product) => total + product?.price * product?.quantity,
+    (total, product) => total + (product?.price * product?.quantity),
     0
-  );
+  ) || 0;
 
   const totalProductByCategory = selectedData?.reduce(
     (total, product) => product?.quantity + total,
     0
-  );
+  ) || 0;
 
   return (
     <div className="overflow-auto lg:ml-3 xl:ml-9 4xl:h-[80vh] 2xl:h-[80vh] xl:h-[85vh] mx-3 lg:mx-0  rounded-lg ">

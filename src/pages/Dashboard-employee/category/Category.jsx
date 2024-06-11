@@ -42,8 +42,10 @@ const Category = () => {
         timer: 1500,
       });
     }
+
+    const categoryName = form.category.value
     const category = {
-      category: form.category.value,
+      category: categoryName.toLowerCase(),
     };
     try {
       const res = await axiosPublic.post("/category", category);
