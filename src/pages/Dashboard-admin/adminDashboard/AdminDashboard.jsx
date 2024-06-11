@@ -13,22 +13,13 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
-<<<<<<< HEAD
-const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu, closeSideMenu }) => {
-=======
 const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
->>>>>>> 33b48b143fa60c5f5165b4e66a5cce588f4ba00c
   const { user: activeUser, loading, logOut } = useAuth();
   const [user, refetch] = useUser();
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
   const { selectedBranch: fistB, updateBranch: secB } = useBranch();
   const [selectedBranch, setSelectedBranch] = useState(user?.branch || "");
-<<<<<<< HEAD
-  // console.log(selectedBranch);
-=======
-
->>>>>>> 33b48b143fa60c5f5165b4e66a5cce588f4ba00c
   const handleChangeBranch = async (e) => {
     e.preventDefault();
     const newBranch = e.target.value;
@@ -161,8 +152,9 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
 
   return (
     <div
-      className={`flex h-screen bg-white ${isSideMenuOpen ? "overflow-hidden" : ""
-        }`}
+      className={`flex h-screen bg-white ${
+        isSideMenuOpen ? "overflow-hidden" : ""
+      }`}
     >
       {/* Dashboard */}
       <aside className="z-20 flex-shrink-0 fixed hidden w-[285px] overflow-y-auto bg-white lg:block lg:mt-20 4xl:ml-[12%] 3xl:ml-[11%] 2xl:ml-[13%] xl:ml-5 lg:ml-3 rounded-lg">
@@ -195,8 +187,9 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
       <div className="fixed inset-0 -z-10 flex items-end bg-slate-300 bg-opacity-50 sm:items-center sm:justify-center"></div>
       {/* responsive dashboard */}
       <aside
-        className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden`}
+        className={`z-20 fixed w-64 duration-300 inset-y-0 ease-in-out overflow-y-auto bg-white ${
+          isSideMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:hidden`}
       >
         <div className="h-screen py-3 pl-3 flex flex-col shadow-xl">
           {/* logo */}
