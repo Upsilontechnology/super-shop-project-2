@@ -11,6 +11,6 @@ export const clearToken = async () => {
 export const getToken = async (email) => {
   const { data } = await axios.post("/auth/jwt", { email });
   // console.log(data);
-  // console.log("Token recived from the server ------> ", data);
+  console.log("Token recived from the server ------> ", data);
   return data;
 };

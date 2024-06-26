@@ -13,6 +13,7 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useBranch } from "../../../components/BranchContext/BranchContext";
+import { clearToken } from "../../../components/AuthProvider/AuthApi";
 const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
   const { user: activeUser, loading, logOut } = useAuth();
   const [user, refetch] = useUser();
@@ -120,6 +121,7 @@ const AdminDashboard = ({ isSideMenuOpen, toggleSideMenu }) => {
             showConfirmButton: false,
             timer: 1500,
           });
+          clearToken();
           navigate("/");
         });
       }

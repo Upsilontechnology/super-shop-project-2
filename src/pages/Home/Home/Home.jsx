@@ -28,6 +28,7 @@ const Home = () => {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-dots loading-lg "></span>
+        {/* <span className="text-xl font-bold ">Loading.....admin</span> */}
       </div>
     );
   }
@@ -35,7 +36,8 @@ const Home = () => {
   if (isEmployeeLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-dots loading-lg "></span>
+        {/* <span className="loading loading-dots loading-lg "></span> */}
+        <span className="text-xl font-bold ">Loading.....employee</span>
       </div>
     );
   }

@@ -3,9 +3,11 @@ import { IoPersonOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router";
+import { clearToken } from "../../AuthProvider/AuthApi";
 const Header = () => {
   const { logOut, user } = useAuth();
   const navigate = useNavigate();
+  
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -25,6 +27,7 @@ const Header = () => {
             showConfirmButton: false,
             timer: 1500,
           });
+          clearToken();
           navigate("/");
         });
       }
