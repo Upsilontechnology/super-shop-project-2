@@ -18,14 +18,14 @@ const AdminHome = () => {
   const [fetchedData, setFetchedData] = useState();
   const [selectedData, setSelectedData] = useState();
   const [role, branch] = useRoleAndBranch();
-  // console.log(role);
+  // console.log(selectedBranch);
 
-  useEffect(() => {
-    if (role === "Admin") {
-      console.log("Admin home");
-      updateBranch(branch);
-    }
-  }, [role, branch, updateBranch]);
+  // useEffect(() => {
+  //   if (role === "Admin") {
+  //     console.log("Admin home");
+  //     updateBranch(branch);
+  //   }
+  // }, [role, branch, updateBranch]);
 
   const { data: categories = [], refetch: refetchCategory } = useQuery({
     queryKey: ["categoryData"],
@@ -88,17 +88,27 @@ const AdminHome = () => {
       refetchSoldProductState();
       refetchProductState();
     }
-  }, [selectedBranch, refetchCategory, refetchSoldProductState, refetchProductState,]);
+  }, [selectedBranch, refetchCategory, refetchSoldProductState, refetchProductState, branch, updateBranch]);
 
   useEffect(() => {
     if (categories?.items?.length > 0) {
       handleCategory(categories?.items[defaultTab]?.category, defaultTab);
     }
-  }, [categories?.items]);
+  }, [categories?.items, branch,selectedBranch, updateBranch]);
 
   // useEffect(() => {
-  //   setSelectedData(selectedData)
-  // },[categories?.items])
+  //   try {
+  //     const res = axiosPublic.get(
+  //       `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email}&category=${filter}&status=${status}`
+  //     );
+  //     setSelectedData(res.data);
+  //     console.log('clicked from outside', res.data);
+  //   } catch (error) {
+  //     console.error("Error fetching products by category:", error);
+  //   }
+  // }, [role, selectedBranch, user?.email, filter, status, branch, updateBranch])
+  
+  console.log(branch, selectedBranch)
 
   const handleCategory = async (categoryName, index) => {
     setDefaultTab(index);
@@ -107,10 +117,10 @@ const AdminHome = () => {
     // console.log(category)
     try {
       const res = await axiosPublic.get(
-        `/sellProducts/category?role=${role}&branch=${selectedBranch}&email=${user?.email}&category=${category}&status=${status}`
+        `/sellProducts/category?role=${role}&branch=${branch}&email=${user?.email}&category=${category}&status=${status}`
       );
       setSelectedData(res.data);
-      console.log(res.data);
+      console.log('clicked', res.data);
     } catch (error) {
       console.error("Error fetching products by category:", error);
     }
